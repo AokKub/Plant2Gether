@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PlantStatus {
+  ALIVE
+  DEAD
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  firstname  String
+  lastname   String
+  email      String  @unique
+  password   String
+  user_img   String  // Prisma doesn't have a 'url' type, use String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  posts      Post[]
+}
+
+model Plant {
+  id             Int          @id @default(autoincrement())
+  plant_name     String
+  plant_nickname String
+  time_reminder  DateTime
+  plant_img      String
+  status         PlantStatus
+  posts          Post[]
+}
+
+model Post {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  plantId Int
+  status  Boolean
+
+  user    User   @relation(fields: [userId], references: [id])
+  plant   Plant  @relation(fields: [plantId], references: [id])
+}
