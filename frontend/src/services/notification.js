@@ -1,23 +1,31 @@
-// Your public VAPID key
-const VAPID_PUBLIC_KEY = VAPID_PUBLIC_KEY;
+const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
 
-async function subscribeToPush(userId) {
+async function subscribeToPush() {
   if ("serviceWorker" in navigator && "PushManager" in window) {
-    const reg = await navigator.serviceWorker.register("/sw.js");
+    try {
+      const reg = await navigator.serviceWorker.register("/sw.js");
+      console.log(VAPID_PUBLIC_KEY);
 
-    const sub = await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
-    });
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      });
 
-    console.log("Push Subscription:", JSON.stringify(sub));
+      console.log("Push Subscription:", JSON.stringify(sub));
 
-    // Send subscription to your backend
-    await fetch("/api/subscribe", {
-      method: "POST",
-      body: JSON.stringify({ subscription: sub, userId }),
-      headers: { "Content-Type": "application/json" },
-    });
+      // Send subscription to your backend
+      // await fetch("/api/subscribe", {
+      //   method: "POST",
+      //   body: JSON.stringify({ subscription: sub, userId }),
+      //   headers: { "Content-Type": "application/json" },
+      // });
+    } catch (err) {
+      console.error("Error subscribing to push notifications", err);
+    }
+  } else {
+    console.error(
+      "PushManager or ServiceWorker is not supported in this browser.",
+    );
   }
 }
 
