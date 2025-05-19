@@ -5,6 +5,7 @@ import MyPlantPage from "./pages/userPages/MyPlantPage";
 import { useEffect } from "react";
 import { subscribeToPush } from "./services/notification";
 import UserLoginPage from "./pages/userPages/userLoginPage";
+import UserSignupPage from "./pages/userPages/userSignUpPage";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <UserLoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <UserSignupPage />,
   },
 ]);
 
