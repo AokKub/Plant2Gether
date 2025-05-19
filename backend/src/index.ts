@@ -1,9 +1,19 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import userRoutes from "./routes/user";
+import { login, signUp } from "./controllers/user";
+import { authMiddleware } from "./middlewares/middlewares";
+const app = new Hono();
 
-const app = new Hono()
+app.use("*", cors());
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.post("/register", signUp);
+app.post("/login", login);
 
-export default app
+app.route("/api", userRoutes);
+
+app.get("/", (c) => {
+  return c.text("Hello Hono!");
+});
+
+export default app;

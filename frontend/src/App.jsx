@@ -1,23 +1,25 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
-import "./App.css";
-import UserLoginPage from "./pages/userPages/userLoginPage";
 
+import "./App.css";
+import MyPlantPage from "./pages/userPages/MyPlantPage";
+import { useEffect } from "react";
+import { subscribeToPush } from "./services/notification";
 
 const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <MyPlantPage />,
-//   },
+  {
+    path: "/",
+    element: <MyPlantPage />,
+  },
   {
     path: "/login",
-    element: <UserLoginPage/>,
+    element: <userLoginPage />,
   },
-  
-    
-  
 ]);
 
 function App() {
+  useEffect(() => {
+    subscribeToPush();
+  }, []);
   return <RouterProvider router={router} />;
 }
 
