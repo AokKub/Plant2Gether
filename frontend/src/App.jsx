@@ -2,7 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 
 import "./App.css";
 import MyPlantPage from "./pages/userPages/MyPlantPage";
-
+import { useEffect } from "react";
+import { subscribeToPush } from "./services/notification";
 
 const router = createBrowserRouter([
   {
@@ -13,12 +14,12 @@ const router = createBrowserRouter([
     path: "/login",
     element: <userLoginPage />,
   },
-
-
-
 ]);
 
 function App() {
+  useEffect(() => {
+    subscribeToPush();
+  }, []);
   return <RouterProvider router={router} />;
 }
 

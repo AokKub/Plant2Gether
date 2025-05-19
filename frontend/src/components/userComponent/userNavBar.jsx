@@ -54,8 +54,7 @@ export default function NavBar() {
           </div>
           <div className="mt-auto mb-4 flex items-center text-[#53675E] font-medium">
             <div className="flex items-center w-full">
-              <div className="relative w-12 h-12 rounded-full border-1 border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200">
-              </div>
+              <div className="relative w-12 h-12 rounded-full border-1 border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200"></div>
               <div>
                 <div className="text-[18px]">Username</div>
                 <button
@@ -74,17 +73,21 @@ export default function NavBar() {
       <div className="px-5 py-6 md:hidden">
         <div className="flex justify-between items-start p-1">
           <div>
-            <h1 className="text-[30px] font-bold text-[#53675E]">Plant2gether</h1>
-            <p className="text-[10px] font-medium text-[#C6C6C6]">Let's give them a drink !</p>
-            
+            <h1 className="text-[30px] font-bold text-[#53675E]">
+              Plant2gether
+            </h1>
+            <p className="text-[10px] font-medium text-[#C6C6C6]">
+              Let's give them a drink !
+            </p>
+
             <div className="flex mt-3 text-[18px] font-bold">
-              <div 
+              <div
                 className={`mr-6 ${currentPage === "/" ? "text-[#53675E] font-bold" : "text-[#88AE9D] font-bold"}`}
                 onClick={() => navigateTo("/")}
               >
                 My Plants
               </div>
-              <div 
+              <div
                 className={`${currentPage === "community" ? "text-[#53675E] font-bold" : "text-[#88AE9D] font-bold"}`}
                 onClick={() => navigateTo("community")}
               >
@@ -92,12 +95,11 @@ export default function NavBar() {
               </div>
             </div>
           </div>
-          
+
           <button
-              type="button"
-              className="w-13 h-13 ml-30 rounded-full border border-[#1E5D1E] overflow-hidden bg-[#C6C6C6] cursor-pointer hover:bg-[#b0b0b0] focus:outline-none"
-            >
-          </button>
+            type="button"
+            className="w-13 h-13 ml-30 rounded-full border border-[#1E5D1E] overflow-hidden bg-[#C6C6C6] cursor-pointer hover:bg-[#b0b0b0] focus:outline-none"
+          ></button>
         </div>
       </div>
     </>
