@@ -25,7 +25,7 @@ export default function NavBar() {
 
   return (
     <>
-      {/* Desktop Sidebar - Hidden on Mobile */}
+      {/* Desktop Sidebar - Hidden on mobile */}
       <div
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
