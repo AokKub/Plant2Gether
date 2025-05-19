@@ -70,7 +70,6 @@ const UserLoginComponent = () => {
       );
 
       setIsLoading(false);
-      // navigate("/");
     } catch (error) {
       setLoginError(error.message || "Failed to login. Please try again.");
       setIsLoading(false);
