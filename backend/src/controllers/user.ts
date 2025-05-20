@@ -93,12 +93,16 @@ const createPlant = async (c: Context) => {
     const userId = body["userId"] as string;
     const plantName = body["plantName"] as string;
     const plantNickName = body["plantNickName"] as string;
-    const setTime = body["reminderTime"] as string;
+    const setTime = body["timeReminder"] as string;
     const img = body["image"] as File;
     const subscription = JSON.parse(body["subscription"] as string);
-    console.log(subscription);
     const imageResult = await uploadToCloudinary(img);
-
+    console.log("this is addplant");
+    console.log(subscription);
+    console.log(userId);
+    console.log(plantName);
+    console.log(plantNickName);
+    console.log(setTime);
     const addedPlant = await addplant(
       Number(userId),
       plantName,

@@ -11,6 +11,7 @@ import { authMiddleware } from "../middlewares/middlewares";
 const userRoutes = new Hono();
 
 userRoutes.use(authMiddleware);
+
 userRoutes.post("/add-plant", createPlant);
 
 userRoutes.get("/get-plants/:id", getPlants);

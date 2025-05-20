@@ -15,15 +15,15 @@ const UserSignupComponent = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!firstName) {
       newErrors.firstName = "First name is required";
     }
-    
+
     if (!lastName) {
       newErrors.lastName = "Last name is required";
     }
-    
+
     if (!username) {
       newErrors.username = "Username is required";
     } else if (username.length < 3) {
@@ -69,12 +69,18 @@ const UserSignupComponent = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/signup", {
+      const response = await fetch("http://localhost:3000/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ firstName, lastName, username, email, password }),
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          username,
+          email,
+          password,
+        }),
       });
 
       const data = await response.json();
@@ -86,7 +92,7 @@ const UserSignupComponent = () => {
       }
 
       window.location.href = "/login";
-      
+
       setIsLoading(false);
     } catch (error) {
       setSignupError(error.message || "Failed to signup. Please try again.");

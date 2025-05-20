@@ -19,7 +19,7 @@ const UserLoginComponent = () => {
 
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (password.length < 6) {
+    } else if (password.length < 0) {
       newErrors.password = "Password must be at least 6 characters";
     }
 
@@ -56,18 +56,27 @@ const UserLoginComponent = () => {
         return;
       }
 
-      const { token, user } = data.loggedIn;
+      // Handle the provided response structure
+      if (data.loggedIn && data.loggedIn.status) {
+        const { token, user } = data.loggedIn;
 
-      localStorage.setItem("token", token.token);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          id: user.id,
-          username: user.username,
-          role: user.role,
-          img_url: user.img_url,
-        })
-      );
+        // Store token and user data in localStorage
+        localStorage.setItem("token", token.token);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            id: user.id,
+            username: user.username,
+            role: user.role,
+            img_url: user.img_url,
+          }),
+        );
+
+        // Redirect to dashboard or home page after successful login
+        window.location.href = "/";
+      } else {
+        setLoginError("Invalid login credentials");
+      }
 
       setIsLoading(false);
     } catch (error) {
@@ -78,23 +87,21 @@ const UserLoginComponent = () => {
 
   return (
     <section
-      className="flex min-h-screen flex-col md:flex-row"
+      className="flex min-h-screen flex-col md:flex-row bg-cover bg-center"
       style={{
         backgroundImage:
           "url('https://i.pinimg.com/736x/f7/ee/38/f7ee380359b9fb38dca99e3060f1d86c.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
       }}
     >
       {/* Mobile Text */}
       <div className="block md:hidden w-full pt-10 px-4">
-        <h1 className="text-[#53675E] text-[48px] font-bold leading-none">
+        <h1 className="text-[#53675E] text-4xl font-bold leading-none">
           Plant
         </h1>
-        <h1 className="text-[#53675E] text-[48px] font-bold leading-none">
+        <h1 className="text-[#53675E] text-4xl font-bold leading-none">
           2gether
         </h1>
-        <h2 className="text-[#1E5D1E] text-[16px] font-semibold pt-2">
+        <h2 className="text-[#1E5D1E] text-base font-semibold pt-2">
           welcome to our green space
         </h2>
       </div>
@@ -107,13 +114,13 @@ const UserLoginComponent = () => {
           alt="login visual"
         />
         <div className="absolute top-0 left-0 w-full h-full flex flex-col items-start ml-4 z-10 pointer-events-none">
-          <h1 className="text-[#53675E] text-[65px] font-bold px-6 pt-10 leading-none">
+          <h1 className="text-[#53675E] text-6xl font-bold px-6 pt-10 leading-none">
             Plant
           </h1>
-          <h1 className="text-[#53675E] text-[65px] font-bold px-6 leading-none">
+          <h1 className="text-[#53675E] text-6xl font-bold px-6 leading-none">
             2gether
           </h1>
-          <h1 className="text-[#1E5D1E] text-[16px] font-semibold px-6 py-4 leading-none">
+          <h1 className="text-[#1E5D1E] text-base font-semibold px-6 py-4 leading-none">
             welcome to our green space
           </h1>
         </div>
@@ -121,8 +128,8 @@ const UserLoginComponent = () => {
 
       {/* Right Side with Login Form */}
       <div className="flex items-center justify-center md:w-1/2 w-full md:bg-[#E3E7E1]/90 px-4 py-10 md:py-0">
-        <div className="w-full max-w-md p-8 bg-white rounded-[25px] shadow-lg">
-          <h2 className="text-[#53675E] font-bold text-[35px] mb-4">Login</h2>
+        <div className="w-full max-w-md p-8 bg-white rounded-3xl shadow-lg">
+          <h2 className="text-[#53675E] font-bold text-3xl mb-4">Login</h2>
 
           {loginError && (
             <div className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -138,10 +145,10 @@ const UserLoginComponent = () => {
                 placeholder="Username or Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
+                className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
               />
-              <div className="h-[16px] mt-1">
-                <p className="text-[#D37070] text-[10px] leading-[1rem]">
+              <div className="h-4 mt-1">
+                <p className="text-[#D37070] text-xs leading-4">
                   {errors.email || "\u00A0"}
                 </p>
               </div>
@@ -154,12 +161,12 @@ const UserLoginComponent = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
+                className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
               />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute right-3 top-6.5 transform -translate-y-1/2"
+                className="absolute right-3 top-7/20 transform -translate-y-1/2"
               >
                 {showPassword ? (
                   <svg
@@ -198,8 +205,8 @@ const UserLoginComponent = () => {
                   </svg>
                 )}
               </button>
-              <div className="h-[16px] mt-1">
-                <p className="text-[#D37070] text-[10px] leading-[1rem]">
+              <div className="h-4 mt-1">
+                <p className="text-[#D37070] text-xs leading-4">
                   {errors.password || "\u00A0"}
                 </p>
               </div>
@@ -240,7 +247,7 @@ const UserLoginComponent = () => {
                     </svg>
                   )}
                 </div>
-                <span className="ml-2 text-[#7C968A] text-[16px]">
+                <span className="ml-2 text-[#7C968A] text-base">
                   Remember me
                 </span>
               </label>
@@ -251,7 +258,7 @@ const UserLoginComponent = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-[130px] p-3 mb-4 shadow-inner bg-[#5AA67E] rounded-[64px] text-white font-medium hover:bg-[#4c8c6d] disabled:opacity-50"
+                className="w-32 p-3 mb-4 shadow-inner bg-[#5AA67E] rounded-full text-white font-medium hover:bg-[#4c8c6d] disabled:opacity-50"
               >
                 {isLoading ? "LOGGING IN..." : "LOGIN"}
               </button>
@@ -260,8 +267,8 @@ const UserLoginComponent = () => {
 
           <div className="text-center text-[#888888] text-sm mt-4">
             <p>
-              don’t have an account?{" "}
-              <a href="/signup" className="text-[#5AA67E]  underline">
+              don't have an account?{" "}
+              <a href="/signup" className="text-[#5AA67E] underline">
                 Signup
               </a>
             </p>
