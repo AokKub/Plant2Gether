@@ -47,25 +47,33 @@ model Subscription {
 
 
 model Plant {
-  id             Int          @id @default(autoincrement())
-  plant_name     String
-  plant_nickname String
-  time_reminder  DateTime
-  plant_img      String
-  status         PlantStatus
-  userId         Int
-  
-  user           User        @relation(fields: [userId], references: [id])
-  posts          Post[]
+  id              Int           @id @default(autoincrement())
+  plant_name      String
+  plant_nickname  String
+  time_reminder   DateTime
+  plant_img       String
+  status          PlantStatus
+  userId          Int
 
+  last_notified_at DateTime?     // <-- New: When the last notification was sent
+  createdAt        DateTime      @default(now()) // <-- New: Created timestamp
+  updatedAt        DateTime      @updatedAt      // <-- New: Auto-updated on change
+
+  user            User           @relation(fields: [userId], references: [id])
+  posts           Post[]
 }
+
 
 model Post {
   id      Int    @id @default(autoincrement())
   userId  Int
   plantId Int
   status  Boolean
+  createdAt        DateTime      @default(now()) // <-- New: Created timestamp
+  updatedAt        DateTime      @updatedAt      // <-- New: Auto-updated on change
+
 
   user    User   @relation(fields: [userId], references: [id])
   plant   Plant  @relation(fields: [plantId], references: [id])
+
 }

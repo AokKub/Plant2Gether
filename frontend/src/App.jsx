@@ -2,10 +2,9 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 
 import "./App.css";
 import MyPlantPage from "./pages/userPages/MyPlantPage";
-import { useEffect } from "react";
-import { subscribeToPush } from "./services/notification";
 import UserLoginPage from "./pages/userPages/userLoginPage";
 import UserSignupPage from "./pages/userPages/userSignUpPage";
+import { UserAddPlantPage } from "./pages/userPages/userAddPlantPage";
 
 const router = createBrowserRouter([
   {
@@ -20,12 +19,13 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <UserSignupPage />,
   },
+  {
+    path: "/add-plant",
+    element: <UserAddPlantPage />,
+  },
 ]);
 
 function App() {
-  useEffect(() => {
-    subscribeToPush();
-  }, []);
   return <RouterProvider router={router} />;
 }
 
