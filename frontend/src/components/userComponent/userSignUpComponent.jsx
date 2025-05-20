@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 const UserSignupComponent = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +15,14 @@ const UserSignupComponent = () => {
 
   const validateForm = () => {
     const newErrors = {};
+    
+    if (!firstName) {
+      newErrors.firstName = "First name is required";
+    }
+    
+    if (!lastName) {
+      newErrors.lastName = "Last name is required";
+    }
     
     if (!username) {
       newErrors.username = "Username is required";
@@ -64,7 +74,7 @@ const UserSignupComponent = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ firstName, lastName, username, email, password }),
       });
 
       const data = await response.json();
@@ -139,35 +149,67 @@ const UserSignupComponent = () => {
           )}
 
           <form onSubmit={handleSignup}>
-            {/* Username Field */}
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
-              />
-              <div className="h-[16px] mt-1">
-                <p className="text-[#D37070] text-[10px] leading-[1rem]">
-                  {errors.username || "\u00A0"}
-                </p>
+            {/* First Name and Last Name on the same line */}
+            <div className="mb-4 flex gap-2">
+              <div className="w-1/2">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
+                />
+                <div className="h-[16px] mt-1">
+                  <p className="text-[#D37070] text-[10px] leading-[1rem]">
+                    {errors.firstName || "\u00A0"}
+                  </p>
+                </div>
+              </div>
+              <div className="w-1/2">
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
+                />
+                <div className="h-[16px] mt-1">
+                  <p className="text-[#D37070] text-[10px] leading-[1rem]">
+                    {errors.lastName || "\u00A0"}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Email Field */}
-            <div className="mb-4">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
-              />
-              <div className="h-[16px] mt-1">
-                <p className="text-[#D37070] text-[10px] leading-[1rem]">
-                  {errors.email || "\u00A0"}
-                </p>
+            {/* Username and Email on the same line */}
+            <div className="mb-4 flex gap-2">
+              <div className="w-1/2">
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
+                />
+                <div className="h-[16px] mt-1">
+                  <p className="text-[#D37070] text-[10px] leading-[1rem]">
+                    {errors.username || "\u00A0"}
+                  </p>
+                </div>
+              </div>
+              <div className="w-1/2">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"
+                />
+                <div className="h-[16px] mt-1">
+                  <p className="text-[#D37070] text-[10px] leading-[1rem]">
+                    {errors.email || "\u00A0"}
+                  </p>
+                </div>
               </div>
             </div>
 
