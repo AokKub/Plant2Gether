@@ -24,11 +24,25 @@ model User {
   firstname String
   lastname  String
   email     String   @unique
+  username  String   @unique
   password  String
   user_img  String // Prisma doesn't have a 'url' type, use String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  posts     Post[]
+
+  plants        Plant[]
+  posts         Post[]
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  endpoint  String   @unique
+  keys      Json
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Plant {
@@ -38,14 +52,23 @@ model Plant {
   time_reminder  DateTime
   plant_img      String
   status         PlantStatus
-  posts          Post[]
+  userId         Int
+
+  last_notified_at DateTime? // <-- New: When the last notification was sent
+  createdAt        DateTime  @default(now()) // <-- New: Created timestamp
+  updatedAt        DateTime  @updatedAt // <-- New: Auto-updated on change
+
+  user  User   @relation(fields: [userId], references: [id])
+  posts Post[]
 }
 
 model Post {
-  id      Int     @id @default(autoincrement())
-  userId  Int
-  plantId Int
-  status  Boolean
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  plantId   Int
+  status    Boolean
+  createdAt DateTime @default(now()) // <-- New: Created timestamp
+  updatedAt DateTime @updatedAt // <-- New: Auto-updated on change
 
   user  User  @relation(fields: [userId], references: [id])
   plant Plant @relation(fields: [plantId], references: [id])

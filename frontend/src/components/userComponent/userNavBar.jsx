@@ -55,6 +55,7 @@ export default function NavBar() {
             <div className="flex items-center w-full">
               <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200">
               </div>
+              <div className="relative w-12 h-12 rounded-full border-1 border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200"></div>
               <div>
                 <div className="text-[18px]">Username</div>
                 <button

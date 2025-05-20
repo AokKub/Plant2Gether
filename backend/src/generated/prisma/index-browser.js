@@ -125,10 +125,19 @@ exports.Prisma.UserScalarFieldEnum = {
   firstname: 'firstname',
   lastname: 'lastname',
   email: 'email',
+  username: 'username',
   password: 'password',
   user_img: 'user_img',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  endpoint: 'endpoint',
+  keys: 'keys',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.PlantScalarFieldEnum = {
@@ -137,14 +146,20 @@ exports.Prisma.PlantScalarFieldEnum = {
   plant_nickname: 'plant_nickname',
   time_reminder: 'time_reminder',
   plant_img: 'plant_img',
-  status: 'status'
+  status: 'status',
+  userId: 'userId',
+  last_notified_at: 'last_notified_at',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   plantId: 'plantId',
-  status: 'status'
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -152,9 +167,24 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.PlantStatus = exports.$Enums.PlantStatus = {
   ALIVE: 'ALIVE',
@@ -163,6 +193,7 @@ exports.PlantStatus = exports.$Enums.PlantStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Subscription: 'Subscription',
   Plant: 'Plant',
   Post: 'Post'
 };
