@@ -149,7 +149,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/symphony/Documents/sit/y1/Plant2Gether/backend/src/generated/prisma",
+      "value": "/Users/nonladapream/Plant2Gether/backend/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -158,17 +158,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/symphony/Documents/sit/y1/Plant2Gether/backend/prisma/schema.prisma",
+    "sourceFilePath": "/Users/nonladapream/Plant2Gether/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.8.2",
@@ -177,6 +176,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -187,7 +187,7 @@ const config = {
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum PlantStatus {\n  ALIVE\n  DEAD\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  firstname String\n  lastname  String\n  email     String   @unique\n  password  String\n  user_img  String // Prisma doesn't have a 'url' type, use String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  posts     Post[]\n}\n\nmodel Plant {\n  id             Int         @id @default(autoincrement())\n  plant_name     String\n  plant_nickname String\n  time_reminder  DateTime\n  plant_img      String\n  status         PlantStatus\n  posts          Post[]\n}\n\nmodel Post {\n  id      Int     @id @default(autoincrement())\n  userId  Int\n  plantId Int\n  status  Boolean\n\n  user  User  @relation(fields: [userId], references: [id])\n  plant Plant @relation(fields: [plantId], references: [id])\n}\n",
   "inlineSchemaHash": "8c31a84aead515f3d4f882f494e57b3f5ade84d973966bae37392a69c96da642",
-  "copyEngine": false
+  "copyEngine": true
 }
 config.dirname = '/'
 
