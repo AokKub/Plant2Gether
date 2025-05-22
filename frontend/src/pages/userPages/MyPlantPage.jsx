@@ -1,12 +1,17 @@
 import NavBar from "../../components/userComponent/userNavBar";
 import UserMyplant from "../../components/userComponent/userMyplant";
+import UserFooter from "../../components/userComponent/userFooter";
 
 const MyPlantPage = () => {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-white">
       <NavBar />
-
-      <UserMyplant />
+      <div className="flex-1 md:ml-65 flex flex-col ">
+      <main className="flex-grow"> 
+        <UserMyplant />
+      </main>
+      <UserFooter/>
+      </div>
     </div>
   );
 };

@@ -180,7 +180,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/symphony/Documents/sit/y1/Plant2Gether/backend/src/generated/prisma",
+      "value": "/Users/nonladapream/Plant2Gether/backend/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -189,12 +189,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/symphony/Documents/sit/y1/Plant2Gether/backend/prisma/schema.prisma",
+    "sourceFilePath": "/Users/nonladapream/Plant2Gether/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -208,6 +208,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
