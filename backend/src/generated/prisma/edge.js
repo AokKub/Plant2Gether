@@ -198,12 +198,8 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-<<<<<<< HEAD
-    "rootEnvPath": null
-=======
     "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
->>>>>>> origin/main
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.8.2",
@@ -221,15 +217,9 @@ const config = {
       }
     }
   },
-<<<<<<< HEAD
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum PlantStatus {\n  ALIVE\n  DEAD\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  firstname String\n  lastname  String\n  email     String   @unique\n  password  String\n  user_img  String // Prisma doesn't have a 'url' type, use String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  posts     Post[]\n}\n\nmodel Plant {\n  id             Int         @id @default(autoincrement())\n  plant_name     String\n  plant_nickname String\n  time_reminder  DateTime\n  plant_img      String\n  status         PlantStatus\n  posts          Post[]\n}\n\nmodel Post {\n  id      Int     @id @default(autoincrement())\n  userId  Int\n  plantId Int\n  status  Boolean\n\n  user  User  @relation(fields: [userId], references: [id])\n  plant Plant @relation(fields: [plantId], references: [id])\n}\n",
-  "inlineSchemaHash": "8c31a84aead515f3d4f882f494e57b3f5ade84d973966bae37392a69c96da642",
-  "copyEngine": true
-=======
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum PlantStatus {\n  ALIVE\n  DEAD\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  firstname String\n  lastname  String\n  email     String   @unique\n  username  String   @unique\n  password  String\n  user_img  String // Prisma doesn't have a 'url' type, use String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  plants        Plant[]\n  posts         Post[]\n  subscriptions Subscription[]\n}\n\nmodel Subscription {\n  id        Int      @id @default(autoincrement())\n  userId    Int\n  endpoint  String   @unique\n  keys      Json\n  createdAt DateTime @default(now())\n\n  user User @relation(fields: [userId], references: [id])\n}\n\nmodel Plant {\n  id             Int         @id @default(autoincrement())\n  plant_name     String\n  plant_nickname String\n  time_reminder  DateTime\n  plant_img      String\n  status         PlantStatus\n  userId         Int\n\n  last_notified_at DateTime? // <-- New: When the last notification was sent\n  createdAt        DateTime  @default(now()) // <-- New: Created timestamp\n  updatedAt        DateTime  @updatedAt // <-- New: Auto-updated on change\n\n  user  User   @relation(fields: [userId], references: [id])\n  posts Post[]\n}\n\nmodel Post {\n  id        Int      @id @default(autoincrement())\n  userId    Int\n  plantId   Int\n  status    Boolean\n  createdAt DateTime @default(now()) // <-- New: Created timestamp\n  updatedAt DateTime @updatedAt // <-- New: Auto-updated on change\n\n  user  User  @relation(fields: [userId], references: [id])\n  plant Plant @relation(fields: [plantId], references: [id])\n}\n",
   "inlineSchemaHash": "05171972bfd99d84219416349cd276f237676d59d342c6451f8dee00129b39ca",
   "copyEngine": false
->>>>>>> origin/main
 }
 config.dirname = '/'
 
