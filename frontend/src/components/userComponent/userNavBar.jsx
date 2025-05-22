@@ -28,7 +28,7 @@ export default function NavBar() {
   
   return (
     <>
-      {/* Desktop Sidebar */}
+      {/* Desktop fix Sidebar */}
       <div className="hidden md:flex fixed z-40 w-64 h-full bg-white shadow-lg">
         <div className="flex flex-col items-start px-10 pt-10 h-full w-full">
           <h1 className="text-[30px] font-bold text-[#53675E] leading-tight">
@@ -55,7 +55,6 @@ export default function NavBar() {
             <div className="flex items-center w-full">
               <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200">
               </div>
-              <div className="relative w-12 h-12 rounded-full border-1 border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200"></div>
               <div>
                 <div className="text-[18px]">Username</div>
                 <button
