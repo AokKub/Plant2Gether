@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 export default function NavBar() {
-  const [isOpen, setIsOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState("/");
 
   useEffect(() => {
@@ -28,7 +27,7 @@ export default function NavBar() {
 
   return (
     <>
-      {/* Desktop Sidebar(fix) */}
+      {/* Desktop Sidebar */}
       <div className="hidden md:flex fixed z-40 w-64 h-full bg-white shadow-lg">
         <div className="flex flex-col items-start px-10 pt-10 h-full w-full">
           <h1 className="text-[30px] font-bold text-[#53675E] leading-tight">
@@ -53,16 +52,15 @@ export default function NavBar() {
           </div>
           <div className="mt-auto mb-4 flex items-center text-[#53675E] font-medium">
             <div className="flex items-center w-full">
-<<<<<<< HEAD
-              <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200"></div>
-=======
-            <a href="/edit-account">
-              <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
-                <img src="/" alt="profile img" className="w-full h-full object-cover" />
-              </div>
-            </a>
-
->>>>>>> origin/main
+              <a href="/edit-account">
+                <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
+                  <img
+                    src="/"
+                    alt="profile img"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </a>
               <div>
                 <div className="text-[18px]">Username</div>
                 <button
@@ -104,7 +102,11 @@ export default function NavBar() {
           </div>
           <a href="/edit-account">
             <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
-              <img src="/" alt="profile img" className="w-full h-full object-cover" />
+              <img
+                src="/"
+                alt="profile img"
+                className="w-full h-full object-cover"
+              />
             </div>
           </a>
         </div>
