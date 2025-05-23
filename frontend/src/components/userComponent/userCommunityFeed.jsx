@@ -31,7 +31,7 @@ export default function UserCommunityFeed() {
   return (
     <div className="min-h-screen md:ml-65 bg-white">
       {/* Header */}
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 pt-0 md:pt-4">
         <div className="hidden md:flex md:pt-10 items-center text-[#88AE9D] text-[18px] font-bold mb-6">
           <Link to="/" className="hover:text-[#1E5D1E]">My plants</Link>
           <ChevronRight className="w-[24px] h-[24px] mx-2" />
@@ -42,7 +42,7 @@ export default function UserCommunityFeed() {
         <div className="relative flex-1 mr-2 text-[12px]">
           <input
             type="text"
-            placeholder="Search your plant!"
+            placeholder="Search"
             className="w-full py-3 px-10 rounded-[15px] bg-[#F4F3F3] focus:outline-none"
           />
           <svg className="w-4 h-4 absolute left-4 top-3 text-[#9D9191]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -52,7 +52,7 @@ export default function UserCommunityFeed() {
       </div>
 
       {/* Main Content */}
-      <div className="px-6">
+      <div className="px-6 mt-0 md:mt-4">
         {posts.map((post) => (
           <div key={post.id} className="bg-[#F4F3F3] rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-4 mb-6">
             <div className="flex flex-col md:flex-row">
