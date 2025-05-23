@@ -102,7 +102,7 @@ export default function UserMyplant() {
                         <p className="font-regular mt-1 text-[12px] text-[#53675E]">{plant.species}</p>
                         <p className="text-sm text-[#53675E]">{plant.days} days</p>
                       </div>
-                      <a href={`/view-detail/${plant.id}`} className="text-[#9D9191] cursor-pointer inline-flex items-center">
+                      <a href={`/plant-detail/${plant.id}`} className="text-[#9D9191] cursor-pointer inline-flex items-center">
                         <svg 
                           className="w-4 h-4"
                           xmlns="http://www.w3.org/2000/svg" 
