@@ -135,7 +135,7 @@ const UserLoginComponent = () => {
             <div className="mb-4">
               <input
                 type="email"
-                placeholder="Username or Email"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-3 bg-[#F4F3F3] text-[#9D9191] font-light border border-white rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#7C968A]"

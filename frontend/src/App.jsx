@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { subscribeToPush } from "./services/notification";
 import UserLoginPage from "./pages/userPages/userLoginPage";
 import UserSignupPage from "./pages/userPages/userSignUpPage";
+import UserPlantDetailPage from "./pages/userPages/userPlantDetailPAge";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <UserSignupPage />,
+  },
+  {
+    path: "/plant-detail",
+    element: <UserPlantDetailPage />,
   },
 ]);
 
