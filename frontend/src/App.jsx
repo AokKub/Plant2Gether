@@ -3,7 +3,7 @@ import "./App.css";
 import MyPlantPage from "./pages/userPages/MyPlantPage";
 import UserLoginPage from "./pages/userPages/userLoginPage";
 import UserSignupPage from "./pages/userPages/userSignUpPage";
-import UserPlantDetailPage from "./pages/userPages/userPlantDetailPAge";
+import UserPlantDetailPage from "./pages/userPages/userPlantDetailPage";
 import { UserAddPlantPage } from "./pages/userPages/userAddPlantPage";
 import { UserEditAccountPage } from "./pages/userPages/userEditAccPage";
 import { UserCommunityFeedPage } from "./pages/userPages/userCommunityFeed";
@@ -23,25 +23,24 @@ const router = createBrowserRouter([
     element: <UserSignupPage />,
   },
   {
-    path: "/plant-detail",
+    path: "/plant-detail/:plantId",
     element: <UserPlantDetailPage />,
   },
   {
-
     path: "/add-plant",
     element: <UserAddPlantPage />,
   },
   {
     path: "/edit-account",
-    element: <UserEditAccountPage/>,
+    element: <UserEditAccountPage />,
   },
   {
     path: "/community",
-    element: <UserCommunityFeedPage/>,
+    element: <UserCommunityFeedPage />,
   },
   {
     path: "/plant-edit",
-    element: <UserPlantEditDetailPage/>,
+    element: <UserPlantEditDetailPage />,
   },
 ]);
 

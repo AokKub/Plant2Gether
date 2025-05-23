@@ -3,8 +3,12 @@ import {
   addplant,
   createPost,
   createUser,
+  delPlant,
   getAllPosts,
+  getLatestWatered,
+  getPlantsByPlantId,
   getPlantsByUserId,
+  getPlantSteaksByPlantId,
   getUserById,
   isLogin,
   updatePlantData,
@@ -90,6 +94,26 @@ const login = async (c: Context) => {
   }
 };
 
+const latestWatered = async (c: Context) => {
+  try {
+    const plantId = c.req.param("id");
+    const watered = await getLatestWatered(Number(plantId));
+    return c.json({ status: true, watered });
+  } catch (error) {
+    return c.json({ status: false, msg: error });
+  }
+};
+
+const deletePlant = async (c: Context) => {
+  try {
+    const { userId, plantId } = await c.req.json();
+    const del = await delPlant(Number(userId), Number(plantId));
+    return c.json({ status: true, del });
+  } catch (error) {
+    return c.json({ status: false, msg: error });
+  }
+};
+
 const createPlant = async (c: Context) => {
   try {
     const body = await c.req.parseBody();
@@ -148,11 +172,11 @@ const updatePlant = async (c: Context) => {
     const plantId = c.req.param("id");
     const body = await c.req.parseBody();
     const userId = body["userId"] as string;
-    const plantName = body["plantName"] as string;
-    const plantNickName = body["plantNickName"] as string;
-    const setTime = body["reminderTime"] as string;
-    const plantStatus = body["plantStatus"] as string;
-    const img = body["image"] as File;
+    const plantName = body["plant_name"] as string;
+    const plantNickName = body["plant_nickname"] as string;
+    const setTime = body["time_reminder"] as string;
+    const plantStatus = body["status"] as string;
+    const img = body["plant_img"] as File;
     const statusEnum = plantStatus.toUpperCase() as keyof typeof PlantStatus;
     if (!img) {
       const addedPlant = await updatePlantDataWithOutImage(
@@ -261,6 +285,36 @@ const getPlants = async (c: Context) => {
   }
 };
 
+const getPlantsById = async (c: Context) => {
+  try {
+    const plantId = c.req.param("id");
+
+    const getPlants = await getPlantsByPlantId(Number(plantId));
+
+    return c.json({ status: true, getPlants });
+  } catch (error) {
+    return c.json({
+      status: false,
+      msg: error,
+    });
+  }
+};
+
+const getStreakByPlantId = async (c: Context) => {
+  try {
+    const plantId = c.req.param("id");
+
+    const streak = await getPlantSteaksByPlantId(Number(plantId));
+
+    return c.json({ status: true, streak });
+  } catch (error) {
+    return c.json({
+      status: false,
+      msg: error,
+    });
+  }
+};
+
 const post = async (c: Context) => {
   try {
     const { userId, plantId } = await c.req.json();
@@ -300,4 +354,8 @@ export {
   updatePlant,
   post,
   posts,
+  getPlantsById,
+  getStreakByPlantId,
+  latestWatered,
+  deletePlant,
 };

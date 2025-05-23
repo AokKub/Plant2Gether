@@ -1,8 +1,29 @@
 import { useState, useEffect } from "react";
+import { useTokenValidation } from "../../hooks/validateToken";
 
 export default function NavBar() {
   const [currentPage, setCurrentPage] = useState("/");
+  const [user, setUser] = useState({ username: "Guest", img_url: "/" });
 
+  useTokenValidation();
+
+  // Fetch user data from localStorage
+  useEffect(() => {
+    try {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (userData && userData.username && userData.img_url) {
+        setUser({
+          username: userData.username,
+          img_url: userData.img_url,
+        });
+      }
+    } catch (error) {
+      console.error("Error parsing user data from localStorage:", error);
+      // Keep default user state if parsing fails
+    }
+  }, []);
+
+  // Update current page based on URL
   useEffect(() => {
     const path = window.location.pathname;
     if (path.includes("community")) {
@@ -22,6 +43,10 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
+    // Clear localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    // Redirect to login page
     window.location.href = "/login";
   };
 
@@ -55,14 +80,14 @@ export default function NavBar() {
               <a href="/edit-account">
                 <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
                   <img
-                    src="/"
-                    alt="profile img"
+                    src={user.img_url}
+                    alt={`${user.username}'s profile`}
                     className="w-full h-full object-cover"
                   />
                 </div>
               </a>
               <div>
-                <div className="text-[18px]">Username</div>
+                <div className="text-[18px]">{user.username}</div>
                 <button
                   className="flex items-center w-full underline text-[#D37070] text-[10px] font-light"
                   onClick={handleLogout}
@@ -100,15 +125,23 @@ export default function NavBar() {
               </div>
             </div>
           </div>
-          <a href="/edit-account">
-            <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
-              <img
-                src="/"
-                alt="profile img"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </a>
+          <div className="flex items-center">
+            <a href="/edit-account">
+              <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
+                <img
+                  src={user.img_url}
+                  alt={`${user.username}'s profile`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </a>
+            <button
+              className="text-[#D37070] text-[10px] font-light underline"
+              onClick={handleLogout}
+            >
+              logout
+            </button>
+          </div>
         </div>
       </div>
     </>

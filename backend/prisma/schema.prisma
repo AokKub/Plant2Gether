@@ -13,7 +13,10 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
 enum PlantStatus {
   ALIVE
   DEAD
@@ -62,6 +65,7 @@ model Plant {
 
   user            User           @relation(fields: [userId], references: [id])
   posts           Post[]
+  daystreaks DayStreak[]
 }
 
 

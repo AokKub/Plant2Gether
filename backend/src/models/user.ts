@@ -97,6 +97,8 @@ const addplant = async (
     console.log(hours);
     console.log(minutes);
 
+    console.log(new Date().toISOString());
+
     const addedplant = await db.plant.create({
       data: {
         userId,
@@ -105,6 +107,7 @@ const addplant = async (
         time_reminder: fixedDateTime,
         plant_img: img,
         status: "ALIVE",
+        createdAt: new Date(),
       },
     });
 
@@ -143,7 +146,7 @@ const getUserById = async (userId: number) => {
 
 const getPlantsByUserId = async (id: number) => {
   try {
-    const plants = db.plant.findMany({
+    const plants = await db.plant.findMany({
       where: {
         userId: id,
       },
@@ -154,6 +157,35 @@ const getPlantsByUserId = async (id: number) => {
     return { status: false, msg: error };
   }
 };
+
+const getPlantsByPlantId = async (id: number) => {
+  try {
+    const plants = await db.plant.findMany({
+      where: {
+        id: id,
+      },
+    });
+    console.log(plants);
+    return plants;
+  } catch (error) {
+    return { status: false, msg: error };
+  }
+};
+
+const getPlantSteaksByPlantId = async (id: number) => {
+  try {
+    const streak = await db.dayStreak.findFirst({
+      where: {
+        plantId: id,
+      },
+    });
+
+    return streak;
+  } catch (error) {
+    return { status: false, msg: error };
+  }
+};
+
 const updateUserData = async (
   id: number,
   firstname: string,
@@ -378,21 +410,89 @@ const createPost = async (userId: number, plantId: number) => {
   return newPost;
 };
 
-const getAllPosts = async () => {
-  const posts = await db.post.findMany({
-    include: {
-      user: {
-        select: { firstname: true, lastname: true, username: true },
-      },
-      plant: {
-        select: { plant_name: true, plant_nickname: true, status: true },
-      },
+const getLatestWatered = async (plantId: number) => {
+  const latestPost = await db.post.findFirst({
+    where: {
+      plantId,
     },
     orderBy: {
       createdAt: "desc",
     },
   });
-  return posts;
+  return latestPost;
+};
+
+const delPlant = async (userId: number, plantId: number) => {
+  try {
+    // Check if the plant exists and belongs to the user
+    const plant = await db.plant.findFirst({
+      where: {
+        id: plantId,
+        userId: userId,
+      },
+    });
+
+    if (!plant) {
+      return null; // Plant not found or doesn't belong to the user
+    }
+
+    // Use a transaction to delete related records and the plant atomically
+    await db.$transaction([
+      // Delete related Post records
+      db.post.deleteMany({
+        where: {
+          plantId: plantId,
+        },
+      }),
+      // Delete related DayStreak records
+      db.dayStreak.deleteMany({
+        where: {
+          plantId: plantId,
+        },
+      }),
+      // Delete the plant
+      db.plant.delete({
+        where: {
+          id: plantId,
+        },
+      }),
+    ]);
+
+    return true; // Deletion successful
+  } catch (error) {
+    console.error("Error in deletePlant model:", error);
+    throw new Error("Failed to delete plant");
+  }
+};
+
+const getAllPosts = async () => {
+  try {
+    const posts = await db.post.findMany({
+      include: {
+        user: {
+          select: {
+            firstname: true,
+            lastname: true,
+            user_img: true,
+          },
+        },
+        plant: {
+          select: {
+            plant_name: true,
+            plant_nickname: true,
+            plant_img: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc", // Newest posts first
+      },
+    });
+    return posts;
+  } catch (error) {
+    console.error("Error in getAllPosts:", error);
+    throw new Error("Failed to retrieve posts");
+  }
 };
 
 export {
@@ -407,4 +507,8 @@ export {
   updatePlantDataWithOutImage,
   createPost,
   getAllPosts,
+  getPlantsByPlantId,
+  getPlantSteaksByPlantId,
+  getLatestWatered,
+  delPlant,
 };
