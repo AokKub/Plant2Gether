@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
-
 import "./App.css";
 import MyPlantPage from "./pages/userPages/MyPlantPage";
 import UserLoginPage from "./pages/userPages/userLoginPage";
@@ -7,6 +6,7 @@ import UserSignupPage from "./pages/userPages/userSignUpPage";
 import UserPlantDetailPage from "./pages/userPages/userPlantDetailPAge";
 import { UserAddPlantPage } from "./pages/userPages/userAddPlantPage";
 import { UserEditAccountPage } from "./pages/userPages/userEditAccPage";
+import { UserCommunityFeedPage } from "./pages/userPages/userCommunityFeed";
 import UserPlantEditDetailPage from "./pages/userPages/userEditPlantDetailPage";
 
 const router = createBrowserRouter([
@@ -34,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/edit-account",
     element: <UserEditAccountPage/>,
+  },
+  {
+    path: "/community",
+    element: <UserCommunityFeedPage/>,
   },
   {
     path: "/plant-edit",
