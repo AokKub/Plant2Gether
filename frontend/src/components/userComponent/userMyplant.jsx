@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
-
+import { Droplets } from "lucide-react";
 export default function UserMyplant() {
   const [plants, setPlants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -645,19 +645,7 @@ export default function UserMyplant() {
                       className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform hover:scale-110"
                       title="Quick Water"
                     >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M7.5 13.5C7.5 17.64 10.86 21 15 21s7.5-3.36 7.5-7.5c0-4.14-3.36-7.5-7.5-7.5s-7.5 3.36-7.5 7.5z"
-                        />
-                      </svg>
+                      <Droplets />
                     </button>
                   </div>
                 </div>
