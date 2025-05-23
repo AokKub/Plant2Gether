@@ -147,14 +147,19 @@ exports.Prisma.PlantScalarFieldEnum = {
   time_reminder: 'time_reminder',
   plant_img: 'plant_img',
   status: 'status',
-  userId: 'userId'
+  userId: 'userId',
+  last_notified_at: 'last_notified_at',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   plantId: 'plantId',
-  status: 'status'
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -175,6 +180,11 @@ exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.PlantStatus = exports.$Enums.PlantStatus = {
   ALIVE: 'ALIVE',

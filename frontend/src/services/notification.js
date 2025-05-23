@@ -4,6 +4,7 @@ async function subscribeToPush() {
   if ("serviceWorker" in navigator && "PushManager" in window) {
     try {
       const reg = await navigator.serviceWorker.register("/sw.js");
+      console.log("This is my VAPID");
       console.log(VAPID_PUBLIC_KEY);
 
       const sub = await reg.pushManager.subscribe({
@@ -13,12 +14,7 @@ async function subscribeToPush() {
 
       console.log("Push Subscription:", JSON.stringify(sub));
 
-      // Send subscription to your backend
-      // await fetch("/api/subscribe", {
-      //   method: "POST",
-      //   body: JSON.stringify({ subscription: sub, userId }),
-      //   headers: { "Content-Type": "application/json" },
-      // });
+      return sub;
     } catch (err) {
       console.error("Error subscribing to push notifications", err);
     }

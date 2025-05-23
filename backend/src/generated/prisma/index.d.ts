@@ -3572,6 +3572,9 @@ export namespace Prisma {
     plant_img: string | null
     status: $Enums.PlantStatus | null
     userId: number | null
+    last_notified_at: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type PlantMaxAggregateOutputType = {
@@ -3582,6 +3585,9 @@ export namespace Prisma {
     plant_img: string | null
     status: $Enums.PlantStatus | null
     userId: number | null
+    last_notified_at: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type PlantCountAggregateOutputType = {
@@ -3592,6 +3598,9 @@ export namespace Prisma {
     plant_img: number
     status: number
     userId: number
+    last_notified_at: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -3614,6 +3623,9 @@ export namespace Prisma {
     plant_img?: true
     status?: true
     userId?: true
+    last_notified_at?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type PlantMaxAggregateInputType = {
@@ -3624,6 +3636,9 @@ export namespace Prisma {
     plant_img?: true
     status?: true
     userId?: true
+    last_notified_at?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type PlantCountAggregateInputType = {
@@ -3634,6 +3649,9 @@ export namespace Prisma {
     plant_img?: true
     status?: true
     userId?: true
+    last_notified_at?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3731,6 +3749,9 @@ export namespace Prisma {
     plant_img: string
     status: $Enums.PlantStatus
     userId: number
+    last_notified_at: Date | null
+    createdAt: Date
+    updatedAt: Date
     _count: PlantCountAggregateOutputType | null
     _avg: PlantAvgAggregateOutputType | null
     _sum: PlantSumAggregateOutputType | null
@@ -3760,6 +3781,9 @@ export namespace Prisma {
     plant_img?: boolean
     status?: boolean
     userId?: boolean
+    last_notified_at?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     posts?: boolean | Plant$postsArgs<ExtArgs>
     _count?: boolean | PlantCountOutputTypeDefaultArgs<ExtArgs>
@@ -3773,6 +3797,9 @@ export namespace Prisma {
     plant_img?: boolean
     status?: boolean
     userId?: boolean
+    last_notified_at?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["plant"]>
 
@@ -3784,6 +3811,9 @@ export namespace Prisma {
     plant_img?: boolean
     status?: boolean
     userId?: boolean
+    last_notified_at?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["plant"]>
 
@@ -3795,9 +3825,12 @@ export namespace Prisma {
     plant_img?: boolean
     status?: boolean
     userId?: boolean
+    last_notified_at?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type PlantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "plant_name" | "plant_nickname" | "time_reminder" | "plant_img" | "status" | "userId", ExtArgs["result"]["plant"]>
+  export type PlantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "plant_name" | "plant_nickname" | "time_reminder" | "plant_img" | "status" | "userId" | "last_notified_at" | "createdAt" | "updatedAt", ExtArgs["result"]["plant"]>
   export type PlantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     posts?: boolean | Plant$postsArgs<ExtArgs>
@@ -3824,6 +3857,9 @@ export namespace Prisma {
       plant_img: string
       status: $Enums.PlantStatus
       userId: number
+      last_notified_at: Date | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["plant"]>
     composites: {}
   }
@@ -4256,6 +4292,9 @@ export namespace Prisma {
     readonly plant_img: FieldRef<"Plant", 'String'>
     readonly status: FieldRef<"Plant", 'PlantStatus'>
     readonly userId: FieldRef<"Plant", 'Int'>
+    readonly last_notified_at: FieldRef<"Plant", 'DateTime'>
+    readonly createdAt: FieldRef<"Plant", 'DateTime'>
+    readonly updatedAt: FieldRef<"Plant", 'DateTime'>
   }
     
 
@@ -4723,6 +4762,8 @@ export namespace Prisma {
     userId: number | null
     plantId: number | null
     status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type PostMaxAggregateOutputType = {
@@ -4730,6 +4771,8 @@ export namespace Prisma {
     userId: number | null
     plantId: number | null
     status: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type PostCountAggregateOutputType = {
@@ -4737,6 +4780,8 @@ export namespace Prisma {
     userId: number
     plantId: number
     status: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -4758,6 +4803,8 @@ export namespace Prisma {
     userId?: true
     plantId?: true
     status?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type PostMaxAggregateInputType = {
@@ -4765,6 +4812,8 @@ export namespace Prisma {
     userId?: true
     plantId?: true
     status?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type PostCountAggregateInputType = {
@@ -4772,6 +4821,8 @@ export namespace Prisma {
     userId?: true
     plantId?: true
     status?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -4866,6 +4917,8 @@ export namespace Prisma {
     userId: number
     plantId: number
     status: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: PostCountAggregateOutputType | null
     _avg: PostAvgAggregateOutputType | null
     _sum: PostSumAggregateOutputType | null
@@ -4892,6 +4945,8 @@ export namespace Prisma {
     userId?: boolean
     plantId?: boolean
     status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     plant?: boolean | PlantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
@@ -4901,6 +4956,8 @@ export namespace Prisma {
     userId?: boolean
     plantId?: boolean
     status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     plant?: boolean | PlantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
@@ -4910,6 +4967,8 @@ export namespace Prisma {
     userId?: boolean
     plantId?: boolean
     status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     plant?: boolean | PlantDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
@@ -4919,9 +4978,11 @@ export namespace Prisma {
     userId?: boolean
     plantId?: boolean
     status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "plantId" | "status", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "plantId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     plant?: boolean | PlantDefaultArgs<ExtArgs>
@@ -4946,6 +5007,8 @@ export namespace Prisma {
       userId: number
       plantId: number
       status: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["post"]>
     composites: {}
   }
@@ -5375,6 +5438,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"Post", 'Int'>
     readonly plantId: FieldRef<"Post", 'Int'>
     readonly status: FieldRef<"Post", 'Boolean'>
+    readonly createdAt: FieldRef<"Post", 'DateTime'>
+    readonly updatedAt: FieldRef<"Post", 'DateTime'>
   }
     
 
@@ -5836,7 +5901,10 @@ export namespace Prisma {
     time_reminder: 'time_reminder',
     plant_img: 'plant_img',
     status: 'status',
-    userId: 'userId'
+    userId: 'userId',
+    last_notified_at: 'last_notified_at',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type PlantScalarFieldEnum = (typeof PlantScalarFieldEnum)[keyof typeof PlantScalarFieldEnum]
@@ -5846,7 +5914,9 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     plantId: 'plantId',
-    status: 'status'
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
@@ -5882,6 +5952,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -6134,6 +6212,9 @@ export namespace Prisma {
     plant_img?: StringFilter<"Plant"> | string
     status?: EnumPlantStatusFilter<"Plant"> | $Enums.PlantStatus
     userId?: IntFilter<"Plant"> | number
+    last_notified_at?: DateTimeNullableFilter<"Plant"> | Date | string | null
+    createdAt?: DateTimeFilter<"Plant"> | Date | string
+    updatedAt?: DateTimeFilter<"Plant"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     posts?: PostListRelationFilter
   }
@@ -6146,6 +6227,9 @@ export namespace Prisma {
     plant_img?: SortOrder
     status?: SortOrder
     userId?: SortOrder
+    last_notified_at?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     posts?: PostOrderByRelationAggregateInput
   }
@@ -6161,6 +6245,9 @@ export namespace Prisma {
     plant_img?: StringFilter<"Plant"> | string
     status?: EnumPlantStatusFilter<"Plant"> | $Enums.PlantStatus
     userId?: IntFilter<"Plant"> | number
+    last_notified_at?: DateTimeNullableFilter<"Plant"> | Date | string | null
+    createdAt?: DateTimeFilter<"Plant"> | Date | string
+    updatedAt?: DateTimeFilter<"Plant"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     posts?: PostListRelationFilter
   }, "id">
@@ -6173,6 +6260,9 @@ export namespace Prisma {
     plant_img?: SortOrder
     status?: SortOrder
     userId?: SortOrder
+    last_notified_at?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: PlantCountOrderByAggregateInput
     _avg?: PlantAvgOrderByAggregateInput
     _max?: PlantMaxOrderByAggregateInput
@@ -6191,6 +6281,9 @@ export namespace Prisma {
     plant_img?: StringWithAggregatesFilter<"Plant"> | string
     status?: EnumPlantStatusWithAggregatesFilter<"Plant"> | $Enums.PlantStatus
     userId?: IntWithAggregatesFilter<"Plant"> | number
+    last_notified_at?: DateTimeNullableWithAggregatesFilter<"Plant"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Plant"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Plant"> | Date | string
   }
 
   export type PostWhereInput = {
@@ -6201,6 +6294,8 @@ export namespace Prisma {
     userId?: IntFilter<"Post"> | number
     plantId?: IntFilter<"Post"> | number
     status?: BoolFilter<"Post"> | boolean
+    createdAt?: DateTimeFilter<"Post"> | Date | string
+    updatedAt?: DateTimeFilter<"Post"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     plant?: XOR<PlantScalarRelationFilter, PlantWhereInput>
   }
@@ -6210,6 +6305,8 @@ export namespace Prisma {
     userId?: SortOrder
     plantId?: SortOrder
     status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     plant?: PlantOrderByWithRelationInput
   }
@@ -6222,6 +6319,8 @@ export namespace Prisma {
     userId?: IntFilter<"Post"> | number
     plantId?: IntFilter<"Post"> | number
     status?: BoolFilter<"Post"> | boolean
+    createdAt?: DateTimeFilter<"Post"> | Date | string
+    updatedAt?: DateTimeFilter<"Post"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     plant?: XOR<PlantScalarRelationFilter, PlantWhereInput>
   }, "id">
@@ -6231,6 +6330,8 @@ export namespace Prisma {
     userId?: SortOrder
     plantId?: SortOrder
     status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: PostCountOrderByAggregateInput
     _avg?: PostAvgOrderByAggregateInput
     _max?: PostMaxOrderByAggregateInput
@@ -6246,6 +6347,8 @@ export namespace Prisma {
     userId?: IntWithAggregatesFilter<"Post"> | number
     plantId?: IntWithAggregatesFilter<"Post"> | number
     status?: BoolWithAggregatesFilter<"Post"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -6399,6 +6502,9 @@ export namespace Prisma {
     time_reminder: Date | string
     plant_img: string
     status: $Enums.PlantStatus
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPlantsInput
     posts?: PostCreateNestedManyWithoutPlantInput
   }
@@ -6411,6 +6517,9 @@ export namespace Prisma {
     plant_img: string
     status: $Enums.PlantStatus
     userId: number
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     posts?: PostUncheckedCreateNestedManyWithoutPlantInput
   }
 
@@ -6420,6 +6529,9 @@ export namespace Prisma {
     time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPlantsNestedInput
     posts?: PostUpdateManyWithoutPlantNestedInput
   }
@@ -6432,6 +6544,9 @@ export namespace Prisma {
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
     userId?: IntFieldUpdateOperationsInput | number
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUncheckedUpdateManyWithoutPlantNestedInput
   }
 
@@ -6443,6 +6558,9 @@ export namespace Prisma {
     plant_img: string
     status: $Enums.PlantStatus
     userId: number
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PlantUpdateManyMutationInput = {
@@ -6451,6 +6569,9 @@ export namespace Prisma {
     time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlantUncheckedUpdateManyInput = {
@@ -6461,10 +6582,15 @@ export namespace Prisma {
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
     userId?: IntFieldUpdateOperationsInput | number
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostCreateInput = {
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPostsInput
     plant: PlantCreateNestedOneWithoutPostsInput
   }
@@ -6474,10 +6600,14 @@ export namespace Prisma {
     userId: number
     plantId: number
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PostUpdateInput = {
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPostsNestedInput
     plant?: PlantUpdateOneRequiredWithoutPostsNestedInput
   }
@@ -6487,6 +6617,8 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     plantId?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostCreateManyInput = {
@@ -6494,10 +6626,14 @@ export namespace Prisma {
     userId: number
     plantId: number
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PostUpdateManyMutationInput = {
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostUncheckedUpdateManyInput = {
@@ -6505,6 +6641,8 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     plantId?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -6759,6 +6897,22 @@ export namespace Prisma {
     not?: NestedEnumPlantStatusFilter<$PrismaModel> | $Enums.PlantStatus
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type PlantCountOrderByAggregateInput = {
     id?: SortOrder
     plant_name?: SortOrder
@@ -6767,6 +6921,9 @@ export namespace Prisma {
     plant_img?: SortOrder
     status?: SortOrder
     userId?: SortOrder
+    last_notified_at?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PlantAvgOrderByAggregateInput = {
@@ -6782,6 +6939,9 @@ export namespace Prisma {
     plant_img?: SortOrder
     status?: SortOrder
     userId?: SortOrder
+    last_notified_at?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PlantMinOrderByAggregateInput = {
@@ -6792,6 +6952,9 @@ export namespace Prisma {
     plant_img?: SortOrder
     status?: SortOrder
     userId?: SortOrder
+    last_notified_at?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PlantSumOrderByAggregateInput = {
@@ -6809,6 +6972,20 @@ export namespace Prisma {
     _max?: NestedEnumPlantStatusFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -6824,6 +7001,8 @@ export namespace Prisma {
     userId?: SortOrder
     plantId?: SortOrder
     status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PostAvgOrderByAggregateInput = {
@@ -6837,6 +7016,8 @@ export namespace Prisma {
     userId?: SortOrder
     plantId?: SortOrder
     status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PostMinOrderByAggregateInput = {
@@ -6844,6 +7025,8 @@ export namespace Prisma {
     userId?: SortOrder
     plantId?: SortOrder
     status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PostSumOrderByAggregateInput = {
@@ -7040,6 +7223,10 @@ export namespace Prisma {
     set?: $Enums.PlantStatus
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type UserUpdateOneRequiredWithoutPlantsNestedInput = {
     create?: XOR<UserCreateWithoutPlantsInput, UserUncheckedCreateWithoutPlantsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPlantsInput
@@ -7232,6 +7419,17 @@ export namespace Prisma {
     not?: NestedEnumPlantStatusFilter<$PrismaModel> | $Enums.PlantStatus
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumPlantStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.PlantStatus | EnumPlantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.PlantStatus[] | ListEnumPlantStatusFieldRefInput<$PrismaModel>
@@ -7240,6 +7438,31 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPlantStatusFilter<$PrismaModel>
     _max?: NestedEnumPlantStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -7261,6 +7484,9 @@ export namespace Prisma {
     time_reminder: Date | string
     plant_img: string
     status: $Enums.PlantStatus
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     posts?: PostCreateNestedManyWithoutPlantInput
   }
 
@@ -7271,6 +7497,9 @@ export namespace Prisma {
     time_reminder: Date | string
     plant_img: string
     status: $Enums.PlantStatus
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     posts?: PostUncheckedCreateNestedManyWithoutPlantInput
   }
 
@@ -7286,6 +7515,8 @@ export namespace Prisma {
 
   export type PostCreateWithoutUserInput = {
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     plant: PlantCreateNestedOneWithoutPostsInput
   }
 
@@ -7293,6 +7524,8 @@ export namespace Prisma {
     id?: number
     plantId: number
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PostCreateOrConnectWithoutUserInput = {
@@ -7355,6 +7588,9 @@ export namespace Prisma {
     plant_img?: StringFilter<"Plant"> | string
     status?: EnumPlantStatusFilter<"Plant"> | $Enums.PlantStatus
     userId?: IntFilter<"Plant"> | number
+    last_notified_at?: DateTimeNullableFilter<"Plant"> | Date | string | null
+    createdAt?: DateTimeFilter<"Plant"> | Date | string
+    updatedAt?: DateTimeFilter<"Plant"> | Date | string
   }
 
   export type PostUpsertWithWhereUniqueWithoutUserInput = {
@@ -7381,6 +7617,8 @@ export namespace Prisma {
     userId?: IntFilter<"Post"> | number
     plantId?: IntFilter<"Post"> | number
     status?: BoolFilter<"Post"> | boolean
+    createdAt?: DateTimeFilter<"Post"> | Date | string
+    updatedAt?: DateTimeFilter<"Post"> | Date | string
   }
 
   export type SubscriptionUpsertWithWhereUniqueWithoutUserInput = {
@@ -7514,6 +7752,8 @@ export namespace Prisma {
 
   export type PostCreateWithoutPlantInput = {
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPostsInput
   }
 
@@ -7521,6 +7761,8 @@ export namespace Prisma {
     id?: number
     userId: number
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PostCreateOrConnectWithoutPlantInput = {
@@ -7625,6 +7867,9 @@ export namespace Prisma {
     time_reminder: Date | string
     plant_img: string
     status: $Enums.PlantStatus
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPlantsInput
   }
 
@@ -7636,6 +7881,9 @@ export namespace Prisma {
     plant_img: string
     status: $Enums.PlantStatus
     userId: number
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PlantCreateOrConnectWithoutPostsInput = {
@@ -7698,6 +7946,9 @@ export namespace Prisma {
     time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPlantsNestedInput
   }
 
@@ -7709,6 +7960,9 @@ export namespace Prisma {
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
     userId?: IntFieldUpdateOperationsInput | number
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlantCreateManyUserInput = {
@@ -7718,12 +7972,17 @@ export namespace Prisma {
     time_reminder: Date | string
     plant_img: string
     status: $Enums.PlantStatus
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PostCreateManyUserInput = {
     id?: number
     plantId: number
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SubscriptionCreateManyUserInput = {
@@ -7739,6 +7998,9 @@ export namespace Prisma {
     time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUpdateManyWithoutPlantNestedInput
   }
 
@@ -7749,6 +8011,9 @@ export namespace Prisma {
     time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUncheckedUpdateManyWithoutPlantNestedInput
   }
 
@@ -7759,10 +8024,15 @@ export namespace Prisma {
     time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
     plant_img?: StringFieldUpdateOperationsInput | string
     status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostUpdateWithoutUserInput = {
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plant?: PlantUpdateOneRequiredWithoutPostsNestedInput
   }
 
@@ -7770,12 +8040,16 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     plantId?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     plantId?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscriptionUpdateWithoutUserInput = {
@@ -7802,10 +8076,14 @@ export namespace Prisma {
     id?: number
     userId: number
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PostUpdateWithoutPlantInput = {
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPostsNestedInput
   }
 
@@ -7813,12 +8091,16 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostUncheckedUpdateManyWithoutPlantInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
