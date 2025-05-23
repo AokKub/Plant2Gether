@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function PlantCard() {
+  const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
   const [plantData, setPlantData] = useState({
     name: "Keaw Kachee",
@@ -12,6 +14,21 @@ export default function PlantCard() {
     isAlive: true,
   });
 
+  const svgIcons = {
+    streak: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+      </svg>
+    ),
+    water: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+        stroke="currentColor" strokeWidth="2"  viewBox="0 0 24 24" >
+        <path d="M12 2C12 2 7 8.5 7 13a5 5 0 0 0 10 0c0-4.5-5-11-5-11z" />
+      </svg>
+    ),
+  };
+
   const handleWaterClick = () => {
     setShowConfirm(true);
   };
@@ -20,61 +37,12 @@ export default function PlantCard() {
     setShowConfirm(false);
     setPlantData({
       ...plantData,
-      word: "Just watered!"
+      word: "Just watered!",
     });
   };
 
   const cancelWater = () => {
     setShowConfirm(false);
-  };
-
-  const svgIcons = {
-    streak: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-      </svg>
-    ),
-    timer: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="12" r="10"></circle>
-        <polyline points="12 6 12 12 16 14"></polyline>
-      </svg>
-    ),
-    edit: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-      </svg>
-    ),
   };
 
   return (
@@ -101,11 +69,9 @@ export default function PlantCard() {
           <div className="mt-4 md:mt-0 md:ml-6 md:flex-1 text-center md:text-left flex flex-col justify-between min-h-[220px]">
             <div className="flex-grow">
               <div className="hidden md:flex justify-between items-center mb-2">
-                <h2 className="text-2xl font-medium text-[#53675E]">
-                  {plantData.name}
-                </h2>
-                <button className="text-[#1E5D1E] cursor-pointer flex items-center underline">
-                  <span className="ml-1">edit</span>
+                <h2 className="text-2xl font-medium text-[#53675E]">{plantData.name}</h2>
+                <button onClick={() => navigate("/plant-edit")} className="text-[#1E5D1E] cursor-pointer underline text-sm">
+                  edit
                 </button>
               </div>
 
@@ -118,75 +84,53 @@ export default function PlantCard() {
                 <span className="w-4 h-4 flex items-center justify-center text-blue-500">
                   {svgIcons.streak}
                 </span>
-                <span className="ml-2 text-[#53675E]">
-                  {plantData.streak} days
-                </span>
+                <span className="ml-2 text-[#53675E]">{plantData.streak} days</span>
               </div>
             </div>
 
             <div className="flex flex-col mb-5 md:flex-row md:items-center md:justify-between mt-4 space-y-2 md:space-y-0">
               <div className="text-center md:text-left">
-                <p className="text-[#7C968A] text-sm md:text-base">
-                  {plantData.time} left
-                </p>
-                <p className="text-[#5AA67E] text-sm md:text-base hidden md:block">
-                  {plantData.word}
-                </p>
+                <p className="text-[#7C968A] text-sm md:text-base">{plantData.time} left</p>
+                <p className="text-[#5AA67E] text-sm md:text-base hidden md:block">{plantData.word}</p>
               </div>
 
               <button
                 onClick={handleWaterClick}
-                className="hidden sm:block bg-[#5AA67E] cursor-pointer text-white p-3 rounded-full hover:bg-green-600 mx-auto md:mx-0"
+                className="hidden sm:block bg-[#5AA67E] text-white p-3 rounded-full hover:bg-green-600"
               >
-                <span className="w-6 h-6 flex items-center justify-center">
-                  {svgIcons.streak}
-                </span>
+                {svgIcons.water}
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* watering mb */}
       <div className="sm:hidden relative md:hidden">
         <button
           onClick={handleWaterClick}
-          className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 bg-[#5AA67E] cursor-pointer text-white p-3 rounded-full hover:bg-green-600 z-40"
+          className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 bg-[#5AA67E] text-white p-3 rounded-full hover:bg-green-600"
         >
-          <span className="w-6 h-6 flex items-center justify-center">
-            {svgIcons.streak}
-          </span>
+          {svgIcons.water}
         </button>
       </div>
 
-      <p className="text-[#5AA67E] text-sm text-center mt-10 md:hidden">
-        {plantData.word}
-      </p>
+      <p className="text-[#5AA67E] text-sm text-center mt-10 md:hidden">{plantData.word}</p>
 
       <div className="mt-4 text-center md:hidden">
-        <button className="text-[#1E5D1E] cursor-pointer text-sm underline">
+        <button onClick={() => navigate("/plant-edit")} className="text-[#1E5D1E] cursor-pointer text-sm underline">
           edit
         </button>
       </div>
 
-      {/* Popup */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 bg-transparent bg-opacity-30 flex justify-center items-center">
           <div className="bg-white rounded-xl shadow-lg md:px-15 px-8 py-6 max-w-md text-center">
-            <h3 className="text-xl font-bold text-[#53675E] mb-4">
-              Confirm watering?
-            </h3>
-            <div className=" flex justify-center md:gap-10 gap-4">
-              <button
-                onClick={cancelWater}
-                className="bg-[#D37070] hover:bg-red-500 text-white font-semibold md:px-8 px-4 py-2 rounded-full"
-              >
+            <h3 className="text-xl font-bold text-[#53675E] mb-4">Confirm watering?</h3>
+            <div className="flex justify-center md:gap-10 gap-4">
+              <button onClick={cancelWater} className="bg-[#D37070] hover:bg-red-600 text-white font-semibold md:px-8 px-4 py-2 rounded-full">
                 Not now
               </button>
-              <button
-                onClick={confirmWater}
-                className="bg-[#5AA67E] hover:bg-[#56A287] text-white font-semibold md:px-8 px-4 py-2 rounded-full"
-              >
+              <button onClick={confirmWater} className="bg-[#5AA67E] hover:bg-green-600 text-white font-semibold md:px-8 px-4 py-2 rounded-full">
                 Confirm
               </button>
             </div>
