@@ -53,7 +53,16 @@ export default function NavBar() {
           </div>
           <div className="mt-auto mb-4 flex items-center text-[#53675E] font-medium">
             <div className="flex items-center w-full">
+<<<<<<< HEAD
               <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200"></div>
+=======
+            <a href="/edit-account">
+              <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
+                <img src="/" alt="profile img" className="w-full h-full object-cover" />
+              </div>
+            </a>
+
+>>>>>>> origin/main
               <div>
                 <div className="text-[18px]">Username</div>
                 <button
@@ -93,10 +102,11 @@ export default function NavBar() {
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            className="w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden bg-[#C6C6C6] cursor-pointer hover:bg-[#b0b0b0] focus:outline-none"
-          ></button>
+          <a href="/edit-account">
+            <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200 cursor-pointer">
+              <img src="/" alt="profile img" className="w-full h-full object-cover" />
+            </div>
+          </a>
         </div>
       </div>
     </>

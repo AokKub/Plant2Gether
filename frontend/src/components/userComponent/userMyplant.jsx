@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { useTokenValidation } from "../../hooks/validateToken";
+=======
+import React from 'react';
+import { Link } from 'react-router-dom';
+>>>>>>> origin/main
 
 export default function UserMyplant() {
   const [plants, setPlants] = useState([]);
@@ -250,7 +255,7 @@ export default function UserMyplant() {
     <div className="pr-5 pb-5 pl-5 md:pt-13 lg:pt-13 flex-1 bg-white">
       {/* Breadcrumb */}
       <div className="items-center text-lg text-[#53675E] mb-5 hidden md:flex">
-        <span className="text-[20px] font-bold">My Plants</span>
+        <span className="text-[18px] font-bold">My Plants</span>
       </div>
 
       {/* main wrapper */}
@@ -434,6 +439,7 @@ export default function UserMyplant() {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* No plants message */}
       {filteredPlants.length === 0 && !loading && (
         <div className="text-center py-12">
@@ -452,6 +458,18 @@ export default function UserMyplant() {
           )}
         </div>
       )}
+=======
+      {/* + new plants (desktop) */}
+      <div className="hidden lg:flex items-center">
+      
+      <Link to="/add-plant">
+        <button className="bg-[#1E5D1E] text-white px-4 py-1.5 rounded-[24px] flex items-center">
+          <span className="font-bold text-[20px] tracking-wide">+ new plants</span>
+        </button>
+      </Link>
+      </div>
+      </div>
+>>>>>>> origin/main
 
       {/* plant cards */}
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
@@ -501,16 +519,22 @@ export default function UserMyplant() {
                           {calculateDaysSinceCreated(plant.createdAt)} days
                         </p>
                       </div>
+<<<<<<< HEAD
                       <button
                         onClick={() => handlePlantOptions(plant.id)}
                         className="text-[#9D9191]"
                       >
                         <svg
+=======
+                      <a href={`/plant-detail/${plant.id}`} className="text-[#9D9191] cursor-pointer inline-flex items-center">
+                        <svg 
+>>>>>>> origin/main
                           className="w-4 h-4"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
+<<<<<<< HEAD
                         >
                           <path
                             strokeLinecap="round"
@@ -518,8 +542,12 @@ export default function UserMyplant() {
                             strokeWidth={2}
                             d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
                           />
+=======
+                          >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+>>>>>>> origin/main
                         </svg>
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -590,12 +618,18 @@ export default function UserMyplant() {
                       {calculateDaysSinceCreated(plant.createdAt)} days
                     </p>
                   </div>
+<<<<<<< HEAD
 
                   <button
                     onClick={() => handlePlantOptions(plant.id)}
                     className="text-[#9D9191]"
                   >
                     <svg
+=======
+                  
+                  <a href={`/view-detail/${plant.id}`} className="text-[#9D9191] cursor-pointer inline-flex items-center">
+                    <svg 
+>>>>>>> origin/main
                       className="w-4 h-4"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -609,7 +643,7 @@ export default function UserMyplant() {
                         d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
                       />
                     </svg>
-                  </button>
+                  </a>
                 </div>
 
                 {/* remaining time */}
