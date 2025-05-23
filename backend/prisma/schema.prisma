@@ -13,7 +13,10 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
 enum PlantStatus {
   ALIVE
   DEAD
@@ -33,6 +36,7 @@ model User {
   plants    Plant[] 
   posts      Post[]
   subscriptions Subscription[]
+  daystreaks DayStreak[]
 }
 
 model Subscription {
@@ -61,6 +65,7 @@ model Plant {
 
   user            User           @relation(fields: [userId], references: [id])
   posts           Post[]
+  daystreaks DayStreak[]
 }
 
 
@@ -69,6 +74,20 @@ model Post {
   userId  Int
   plantId Int
   status  Boolean
+  createdAt        DateTime      @default(now()) // <-- New: Created timestamp
+  updatedAt        DateTime      @updatedAt      // <-- New: Auto-updated on change
+
+
+  user    User   @relation(fields: [userId], references: [id])
+  plant   Plant  @relation(fields: [plantId], references: [id])
+
+}
+
+model DayStreak {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  plantId Int
+  streak Int
   createdAt        DateTime      @default(now()) // <-- New: Created timestamp
   updatedAt        DateTime      @updatedAt      // <-- New: Auto-updated on change
 

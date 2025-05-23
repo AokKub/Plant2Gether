@@ -1,3 +1,4 @@
+import { PlantStatus } from "../generated/prisma";
 import { assignToken } from "../middlewares/middlewares";
 import { db } from "../services/prisma";
 import { getFixedTime } from "../utils/convertTime";
@@ -96,6 +97,8 @@ const addplant = async (
     console.log(hours);
     console.log(minutes);
 
+    console.log(new Date().toISOString());
+
     const addedplant = await db.plant.create({
       data: {
         userId,
@@ -104,6 +107,7 @@ const addplant = async (
         time_reminder: fixedDateTime,
         plant_img: img,
         status: "ALIVE",
+        createdAt: new Date(),
       },
     });
 
@@ -142,7 +146,7 @@ const getUserById = async (userId: number) => {
 
 const getPlantsByUserId = async (id: number) => {
   try {
-    const plants = db.plant.findMany({
+    const plants = await db.plant.findMany({
       where: {
         userId: id,
       },
@@ -153,6 +157,35 @@ const getPlantsByUserId = async (id: number) => {
     return { status: false, msg: error };
   }
 };
+
+const getPlantsByPlantId = async (id: number) => {
+  try {
+    const plants = await db.plant.findMany({
+      where: {
+        id: id,
+      },
+    });
+    console.log(plants);
+    return plants;
+  } catch (error) {
+    return { status: false, msg: error };
+  }
+};
+
+const getPlantSteaksByPlantId = async (id: number) => {
+  try {
+    const streak = await db.dayStreak.findFirst({
+      where: {
+        plantId: id,
+      },
+    });
+
+    return streak;
+  } catch (error) {
+    return { status: false, msg: error };
+  }
+};
+
 const updateUserData = async (
   id: number,
   firstname: string,
@@ -204,6 +237,11 @@ const updateUserDataWithOutImage = async (
     return { status: false, msg: "Internal server error" };
   }
 };
+//
+// const PlantStatus: {
+//   ALIVE: "ALIVE";
+//   DEAD: "DEAD";
+// };
 
 const updatePlantData = async (
   id: number,
@@ -211,6 +249,7 @@ const updatePlantData = async (
   plant_name: string,
   plant_nickname: string,
   time_reminder: string,
+  plant_status: PlantStatus,
   plant_img: string,
 ) => {
   try {
@@ -225,6 +264,7 @@ const updatePlantData = async (
         plant_nickname,
         time_reminder: fixedTime,
         plant_img,
+        status: plant_status,
       },
     });
 
@@ -243,8 +283,10 @@ const updatePlantDataWithOutImage = async (
   plant_name: string,
   plant_nickname: string,
   time_reminder: string,
+  plant_status: PlantStatus,
 ) => {
   const fixedTime = await getFixedTime(time_reminder);
+
   try {
     const updatedPlant = await db.plant.update({
       where: {
@@ -255,6 +297,7 @@ const updatePlantDataWithOutImage = async (
         plant_name,
         plant_nickname,
         time_reminder: fixedTime,
+        status: plant_status,
       },
     });
     return updatedPlant;
@@ -263,6 +306,192 @@ const updatePlantDataWithOutImage = async (
       status: false,
       msg: error,
     };
+  }
+};
+
+const createPost = async (userId: number, plantId: number) => {
+  // Check if the user exists
+  const user = await db.user.findUnique({
+    where: { id: userId },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  // Check if the plant exists and belongs to the user
+  const plant = await db.plant.findUnique({
+    where: { id: plantId },
+  });
+  if (!plant || plant.userId !== userId) {
+    throw new Error("Plant not found or does not belong to the user");
+  }
+
+  // Check if the plant is alive
+  if (plant.status === "DEAD") {
+    throw new Error("Cannot create a post for a dead plant");
+  }
+
+  // Create the post
+  const newPost = await db.post.create({
+    data: {
+      userId,
+      plantId,
+      status: true, // Assuming true means the plant was watered
+    },
+  });
+
+  // Handle DayStreak logic
+  // Step 1: Find the latest post for this plant (excluding the one just created)
+  const latestPost = await db.post.findFirst({
+    where: {
+      plantId,
+      userId,
+      id: { not: newPost.id }, // Exclude the post we just created
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  console.log(latestPost);
+
+  // Step 2: Check if the latest post is within 24 hours
+  const now = new Date(); // Current time: May 23, 2025, 02:58 PM +07
+  let streak = 1; // Default streak for a new post
+
+  if (latestPost) {
+    const latestPostTime = new Date(latestPost.createdAt);
+    const timeDifference =
+      (now.getTime() - latestPostTime.getTime()) / (1000 * 60 * 60); // Difference in hours
+
+    // Step 3: Find the existing DayStreak record for this plant and user
+    const existingStreak = await db.dayStreak.findFirst({
+      where: {
+        userId,
+        plantId,
+      },
+    });
+
+    if (timeDifference <= 24) {
+      // Within 24 hours, increment the streak
+      streak = existingStreak ? existingStreak.streak + 1 : 2; // If no streak record exists, start from 2 (1 from previous + 1 now)
+    } else {
+      // More than 24 hours, reset streak to 1
+      streak = 1;
+    }
+
+    // Step 4: Update or create the DayStreak record
+    if (existingStreak) {
+      await db.dayStreak.update({
+        where: { id: existingStreak.id },
+        data: { streak },
+      });
+    } else {
+      await db.dayStreak.create({
+        data: {
+          userId,
+          plantId,
+          streak,
+        },
+      });
+    }
+  } else {
+    // No previous posts, this is the first post for the plant
+    await db.dayStreak.create({
+      data: {
+        userId,
+        plantId,
+        streak: 1, // First streak
+      },
+    });
+  }
+  console.log(newPost);
+
+  return newPost;
+};
+
+const getLatestWatered = async (plantId: number) => {
+  const latestPost = await db.post.findFirst({
+    where: {
+      plantId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return latestPost;
+};
+
+const delPlant = async (userId: number, plantId: number) => {
+  try {
+    // Check if the plant exists and belongs to the user
+    const plant = await db.plant.findFirst({
+      where: {
+        id: plantId,
+        userId: userId,
+      },
+    });
+
+    if (!plant) {
+      return null; // Plant not found or doesn't belong to the user
+    }
+
+    // Use a transaction to delete related records and the plant atomically
+    await db.$transaction([
+      // Delete related Post records
+      db.post.deleteMany({
+        where: {
+          plantId: plantId,
+        },
+      }),
+      // Delete related DayStreak records
+      db.dayStreak.deleteMany({
+        where: {
+          plantId: plantId,
+        },
+      }),
+      // Delete the plant
+      db.plant.delete({
+        where: {
+          id: plantId,
+        },
+      }),
+    ]);
+
+    return true; // Deletion successful
+  } catch (error) {
+    console.error("Error in deletePlant model:", error);
+    throw new Error("Failed to delete plant");
+  }
+};
+
+const getAllPosts = async () => {
+  try {
+    const posts = await db.post.findMany({
+      include: {
+        user: {
+          select: {
+            firstname: true,
+            lastname: true,
+            user_img: true,
+          },
+        },
+        plant: {
+          select: {
+            plant_name: true,
+            plant_nickname: true,
+            plant_img: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc", // Newest posts first
+      },
+    });
+    return posts;
+  } catch (error) {
+    console.error("Error in getAllPosts:", error);
+    throw new Error("Failed to retrieve posts");
   }
 };
 
@@ -276,4 +505,10 @@ export {
   updateUserDataWithOutImage,
   updatePlantData,
   updatePlantDataWithOutImage,
+  createPost,
+  getAllPosts,
+  getPlantsByPlantId,
+  getPlantSteaksByPlantId,
+  getLatestWatered,
+  delPlant,
 };

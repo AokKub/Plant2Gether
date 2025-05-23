@@ -1,142 +1,612 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  Edit3,
+  Save,
+  X,
+  Droplets,
+  Clock,
+  Calendar,
+  Camera,
+  Upload,
+  Droplet,
+  Trash2,
+} from "lucide-react";
+import { useParams, Link } from "react-router-dom";
 
-export default function PlantCard() {
-  const navigate = useNavigate();
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [plantData, setPlantData] = useState({
-    name: "Keaw Kachee",
-    species: "Dieffenbachia",
-    addedDate: "5/5/2025",
-    streak: 3,
-    time: "1 hour 14 minutes",
-    word: "Your plant is feeling a bit thirsty",
-    isAlive: true,
-  });
+const PlantDetailPage = () => {
+  const [plant, setPlant] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({});
+  const [error, setError] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const { plantId } = useParams("plantId");
+  const [lastWatered, setLastWatered] = useState(null);
+  // Fetch plant details from API
+  useEffect(() => {
+    fetchPlantDetail();
+  }, [plantId]);
 
-  const svgIcons = {
-    streak: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
-      </svg>
-    ),
-    water: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-        stroke="currentColor" strokeWidth="2"  viewBox="0 0 24 24" >
-        <path d="M12 2C12 2 7 8.5 7 13a5 5 0 0 0 10 0c0-4.5-5-11-5-11z" />
-      </svg>
-    ),
+  const fetchPlantDetail = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:3000/api/plant/${plantId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const response2 = await fetch(
+        `http://localhost:3000/api/latest-watered/${plantId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!response.ok) throw new Error("Failed to fetch plant details");
+      if (!response2.ok) setLastWatered(null);
+      const data = await response.json();
+      const data2 = await response2.json();
+      setPlant(data.getPlants[0]);
+      console.log(data2);
+      setLastWatered(data2.watered);
+    } catch (err) {
+      setError(err.message);
+      // Mock data for demo purposes
+      setPlant({
+        id: 1,
+        plant_name: "Dieffenbachia",
+        plant_nickname: "Keaw Kachee",
+        plant_img:
+          "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=400&h=400&fit=crop",
+        status: "ALIVE",
+        time_reminder: "2025-05-26T10:00:00Z",
+        createdAt: "2025-05-20T00:00:00Z",
+        last_notified_at: "2025-05-23T00:00:00Z",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  function calculateNMDaysAgo(dateString) {
+    // Handle null or undefined dates
+    if (!dateString) return 0;
+
+    const date = new Date(dateString);
+    const now = new Date();
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) return 0;
+
+    // Set both dates to start of day for accurate day calculation
+    const dateStart = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+    );
+    const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const diffTime = nowStart - dateStart;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // Return 0 if negative (future date) or the calculated days
+    return Math.max(0, diffDays);
+  }
+
+  const calculateDaysAgo = (dateString) => {
+    if (!dateString) return 0;
+    const date = new Date(dateString);
+    const now = new Date();
+    if (isNaN(date.getTime())) return 0;
+    const dateStart = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+    );
+    const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diffTime = nowStart - dateStart;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays);
   };
 
-  const handleWaterClick = () => {
-    setShowConfirm(true);
+  const formatReminderTime = (timeString) => {
+    const date = new Date(timeString);
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
   };
 
-  const confirmWater = () => {
-    setShowConfirm(false);
-    setPlantData({
-      ...plantData,
-      word: "Just watered!",
+  const formatTimeLeft = (reminderTime) => {
+    const now = new Date();
+    const reminderDate = new Date(reminderTime);
+    const reminderHours = reminderDate.getUTCHours();
+    const reminderMinutes = reminderDate.getUTCMinutes();
+    const today = new Date();
+    const todayWithReminderTime = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      reminderHours,
+      reminderMinutes,
+      0,
+      0,
+    );
+    let diffTime = todayWithReminderTime - now;
+    if (diffTime <= 0) {
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowWithReminderTime = new Date(
+        tomorrow.getFullYear(),
+        tomorrow.getMonth(),
+        tomorrow.getDate(),
+        reminderHours,
+        reminderMinutes,
+        0,
+        0,
+      );
+      diffTime = tomorrowWithReminderTime - now;
+      const hours = Math.floor(diffTime / (1000 * 60 * 60));
+      const minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+      if (hours > 0) {
+        return `${hours}h ${minutes}m (tomorrow)`;
+      }
+      return `${minutes}m (tomorrow)`;
+    }
+    const hours = Math.floor(diffTime / (1000 * 60 * 60));
+    const minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+    if (hours > 0) {
+      return `${hours}h ${minutes}m left`;
+    }
+    return `${minutes}m left`;
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    const reminderTime = new Date(plant.time_reminder);
+    const hours = reminderTime.getUTCHours().toString().padStart(2, "0");
+    const minutes = reminderTime.getUTCMinutes().toString().padStart(2, "0");
+    const timeString = `${hours}:${minutes}`;
+    setEditForm({
+      plant_nickname: plant.plant_nickname,
+      plant_name: plant.plant_name,
+      time_reminder: timeString,
+      status: plant.status,
     });
+    setImageFile(null);
+    setImagePreview(null);
   };
 
-  const cancelWater = () => {
-    setShowConfirm(false);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const formData = new FormData();
+      const userId = JSON.parse(localStorage.getItem("user")).id;
+      const token = localStorage.getItem("token");
+      formData.append("plant_nickname", editForm.plant_nickname);
+      formData.append("plant_name", editForm.plant_name);
+      formData.append("time_reminder", editForm.time_reminder);
+      formData.append("status", editForm.status);
+      formData.append("userId", userId);
+      if (imageFile) {
+        formData.append("plant_img", imageFile);
+      }
+      const response = await fetch(
+        `http://localhost:3000/api/update-plant/${plant.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: "PUT",
+          body: formData,
+        },
+      );
+      if (!response.ok) throw new Error("Failed to update plant");
+      const updatedPlant = await response.json();
+      setPlant((prev) => ({ ...prev, ...updatedPlant }));
+      setIsEditing(false);
+      setEditForm({});
+      setImageFile(null);
+      setImagePreview(null);
+    } catch (err) {
+      const [hours, minutes] = editForm.time_reminder.split(":");
+      const today = new Date();
+      const reminderDateTime = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        parseInt(hours),
+        parseInt(minutes),
+      );
+      setPlant((prev) => ({
+        ...prev,
+        ...editForm,
+        time_reminder: reminderDateTime.toISOString(),
+        plant_img: imagePreview || prev.plant_img,
+      }));
+      setIsEditing(false);
+      setEditForm({});
+      setImageFile(null);
+      setImagePreview(null);
+    } finally {
+      setSaving(false);
+      window.location.reload();
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditForm({});
+    setImageFile(null);
+    setImagePreview(null);
+  };
+
+  const handleFormChange = (field, value) => {
+    setEditForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleWatered = async () => {
+    try {
+      setSaving(true);
+      const userId = JSON.parse(localStorage.getItem("user")).id;
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/api/post`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          plantId: plant.id,
+        }),
+      });
+      if (!response.ok) throw new Error("Failed to log watering");
+      const updatedPlant = await response.json();
+      console.log(updatedPlant);
+      setPlant((prev) => ({
+        ...prev,
+        last_notified_at: new Date().toISOString(),
+      }));
+    } catch (err) {
+      setError(err.message);
+      // Update local state for demo purposes
+      setPlant((prev) => ({
+        ...prev,
+        last_notified_at: new Date().toISOString(),
+      }));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this plant?")) return;
+    try {
+      setSaving(true);
+      const userId = JSON.parse(localStorage.getItem("user")).id;
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/api/deletePlant`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          plantId: plant.id,
+        }),
+      });
+      if (!response.ok) throw new Error("Failed to delete plant");
+      // Redirect to the plant list or home page after deletion
+      window.location.href = "/";
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-32 mb-6"></div>
+            <div className="bg-white rounded-2xl shadow-sm p-6">
+              <div className="h-80 bg-gray-200 rounded-xl mb-6"></div>
+              <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+              <div className="h-6 bg-gray-200 rounded w-1/2 mb-6"></div>
+              <div className="space-y-4">
+                <div className="h-4 bg-gray-200 rounded w-full"></div>
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!plant) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-4 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Plant not found
+          </h2>
+          <p className="text-gray-500">
+            The plant you're looking for doesn't exist.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full max-w-sm md:max-w-4xl mx-auto my-4 md:my-8 px-4 pb-16 overflow-x-hidden">
-      <div className="bg-[#F4F3F3] rounded-lg shadow-sm p-4 md:p-6">
-        <h2 className="text-xl font-medium text-gray-700 text-center md:hidden mb-2">
-          {plantData.name}
-        </h2>
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Breadcrumb */}
+        <div className="flex items-center text-sm text-gray-500 mb-6">
+          <Link to="/">
+            <span className="hover:text-green-600 cursor-pointer">
+              My Plants
+            </span>
+          </Link>
+          <span className="mx-2">{">"}</span>
+          <span className="text-gray-800 font-medium">
+            {plant.plant_nickname}
+          </span>
+        </div>
 
-        <div className="flex flex-col md:flex-row">
-          <div className="relative w-full md:w-64 md:h-64">
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+            Error: {error}. Showing demo data instead.
+          </div>
+        )}
+
+        {/* Plant Detail Card */}
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          {/* Plant Image Section */}
+          <div className="relative">
             <img
-              src="https://cdn11.bigcommerce.com/s-wzfpfq4l/images/stencil/1280x1280/products/908/1016/green_plant__56554.1548787500.jpg?c=2"
-              className="w-full h-full max-w-full object-cover rounded-lg"
-              alt="Plant"
+              src={imagePreview || plant.plant_img}
+              alt={plant.plant_nickname}
+              className="w-full h-80 object-cover"
             />
-            {plantData.isAlive && (
-              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-[#5AA67E] text-white px-3 py-1 rounded-full text-xs font-bold">
-                ALIVE
+            {/* Status Badge */}
+            <div className="absolute top-6 left-6">
+              <span
+                className={`px-4 py-2 rounded-full text-sm font-medium ${plant.status === "ALIVE"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                  }`}
+              >
+                {plant.status}
+              </span>
+            </div>
+            {/* Edit Button */}
+            {!isEditing && (
+              <button
+                onClick={handleEdit}
+                className="absolute top-6 right-6 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-105"
+              >
+                <Edit3 size={20} className="text-gray-600" />
+              </button>
+            )}
+            {/* Image Upload in Edit Mode */}
+            {isEditing && (
+              <div className="absolute bottom-6 right-6">
+                <label className="bg-white/90 hover:bg-white p-3 rounded-full shadow-lg cursor-pointer transition-all hover:scale-105 flex items-center justify-center">
+                  <Camera size={20} className="text-gray-600" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                </label>
               </div>
             )}
           </div>
 
-          <div className="mt-4 md:mt-0 md:ml-6 md:flex-1 text-center md:text-left flex flex-col justify-between min-h-[220px]">
-            <div className="flex-grow">
-              <div className="hidden md:flex justify-between items-center mb-2">
-                <h2 className="text-2xl font-medium text-[#53675E]">{plantData.name}</h2>
-                <button onClick={() => navigate("/plant-edit")} className="text-[#1E5D1E] cursor-pointer underline text-sm">
-                  edit
-                </button>
+          {/* Plant Details Section */}
+          <div className="p-8">
+            {isEditing ? (
+              /* Edit Mode */
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Plant Nickname
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.plant_nickname}
+                    onChange={(e) =>
+                      handleFormChange("plant_nickname", e.target.value)
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg"
+                    placeholder="Give your plant a nickname"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Plant Type
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.plant_name}
+                    onChange={(e) =>
+                      handleFormChange("plant_name", e.target.value)
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    placeholder="e.g., Dieffenbachia"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Watering Reminder Time
+                  </label>
+                  <input
+                    type="time"
+                    value={editForm.time_reminder}
+                    onChange={(e) =>
+                      handleFormChange("time_reminder", e.target.value)
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Plant Status
+                  </label>
+                  <select
+                    value={editForm.status}
+                    onChange={(e) => handleFormChange("status", e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    <option value="ALIVE">Alive & Healthy</option>
+                    <option value="DEAD">Dead</option>
+                  </select>
+                </div>
+                {imageFile && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div className="flex items-center">
+                      <Upload size={16} className="text-green-600 mr-2" />
+                      <span className="text-sm text-green-800">
+                        New image selected: {imageFile.name}
+                      </span>
+                    </div>
+                  </div>
+                )}
+                <div className="flex gap-4 pt-4">
+                  <button
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors text-lg font-medium"
+                  >
+                    <Save size={20} />
+                    {saving ? "Saving..." : "Save Changes"}
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    disabled={saving}
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 text-gray-800 px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors text-lg font-medium"
+                  >
+                    <X size={20} />
+                    Cancel
+                  </button>
+                </div>
               </div>
-
-              <p className="text-[#53675E] mb-1">{plantData.species}</p>
-              <p className="text-[#53675E] text-sm md:text-base mb-2 md:mb-4">
-                {plantData.streak} days since {plantData.addedDate}
-              </p>
-
-              <div className="flex justify-center md:justify-start items-center my-3 md:mb-6">
-                <span className="w-4 h-4 flex items-center justify-center text-blue-500">
-                  {svgIcons.streak}
-                </span>
-                <span className="ml-2 text-[#53675E]">{plantData.streak} days</span>
+            ) : (
+              /* View Mode */
+              <div>
+                <div className="mb-6">
+                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                    {plant.plant_nickname}
+                  </h1>
+                  <p className="text-lg text-gray-600">{plant.plant_name}</p>
+                </div>
+                {/* Plant Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div className="bg-blue-50 rounded-xl p-4">
+                    <div className="flex items-center mb-2">
+                      <Droplets className="text-blue-600 mr-2" size={20} />
+                      <span className="font-semibold text-blue-900">
+                        Last Watered
+                      </span>
+                    </div>
+                    <p className="text-2xl font-bold text-blue-600">
+                      {lastWatered == null
+                        ? "0"
+                        : calculateNMDaysAgo(lastWatered.createdAt)}{" "}
+                      days ago
+                    </p>
+                  </div>
+                  <div className="bg-green-50 rounded-xl p-4">
+                    <div className="flex items-center mb-2">
+                      <Calendar className="text-green-600 mr-2" size={20} />
+                      <span className="font-semibold text-green-900">
+                        Plant Age
+                      </span>
+                    </div>
+                    <p className="text-2xl font-bold text-green-600">
+                      {calculateNMDaysAgo(plant.createdAt)} days
+                    </p>
+                  </div>
+                  <div className="bg-orange-50 rounded-xl p-4">
+                    <div className="flex items-center mb-2">
+                      <Clock className="text-orange-600 mr-2" size={20} />
+                      <span className="font-semibold text-orange-900">
+                        Next Reminder
+                      </span>
+                    </div>
+                    <p className="text-lg font-bold text-orange-600">
+                      {formatReminderTime(plant.time_reminder)}
+                    </p>
+                    <p className="text-sm text-orange-500 mt-1">
+                      {formatTimeLeft(plant.time_reminder)}
+                    </p>
+                  </div>
+                </div>
+                {/* Care Notes */}
+                <div className="bg-gray-50 rounded-xl p-6 mb-6">
+                  <h3 className="font-semibold text-gray-900 mb-3">
+                    Care Notes
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    Your plant is feeling a bit thirsty. Make sure to water it
+                    regularly and keep it in a well-lit area. Monitor the soil
+                    moisture and adjust watering schedule as needed.
+                  </p>
+                </div>
+                {/* Action Buttons */}
+                <div className="flex gap-4">
+                  <button
+                    onClick={handleWatered}
+                    disabled={saving || loading}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors text-lg font-medium"
+                  >
+                    <Droplet size={20} />
+                    {saving ? "Logging..." : "Mark as Watered"}
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    disabled={saving || loading}
+                    className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-colors text-lg font-medium"
+                  >
+                    <Trash2 size={20} />
+                    {saving ? "Deleting..." : "Delete Plant"}
+                  </button>
+                </div>
               </div>
-            </div>
-
-            <div className="flex flex-col mb-5 md:flex-row md:items-center md:justify-between mt-4 space-y-2 md:space-y-0">
-              <div className="text-center md:text-left">
-                <p className="text-[#7C968A] text-sm md:text-base">{plantData.time} left</p>
-                <p className="text-[#5AA67E] text-sm md:text-base hidden md:block">{plantData.word}</p>
-              </div>
-
-              <button
-                onClick={handleWaterClick}
-                className="hidden sm:block bg-[#5AA67E] text-white p-3 rounded-full hover:bg-green-600"
-              >
-                {svgIcons.water}
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </div>
-
-      <div className="sm:hidden relative md:hidden">
-        <button
-          onClick={handleWaterClick}
-          className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 bg-[#5AA67E] text-white p-3 rounded-full hover:bg-green-600"
-        >
-          {svgIcons.water}
-        </button>
-      </div>
-
-      <p className="text-[#5AA67E] text-sm text-center mt-10 md:hidden">{plantData.word}</p>
-
-      <div className="mt-4 text-center md:hidden">
-        <button onClick={() => navigate("/plant-edit")} className="text-[#1E5D1E] cursor-pointer text-sm underline">
-          edit
-        </button>
-      </div>
-
-      {showConfirm && (
-        <div className="fixed inset-0 z-50 bg-transparent bg-opacity-30 flex justify-center items-center">
-          <div className="bg-white rounded-xl shadow-lg md:px-15 px-8 py-6 max-w-md text-center">
-            <h3 className="text-xl font-bold text-[#53675E] mb-4">Confirm watering?</h3>
-            <div className="flex justify-center md:gap-10 gap-4">
-              <button onClick={cancelWater} className="bg-[#D37070] hover:bg-red-600 text-white font-semibold md:px-8 px-4 py-2 rounded-full">
-                Not now
-              </button>
-              <button onClick={confirmWater} className="bg-[#5AA67E] hover:bg-green-600 text-white font-semibold md:px-8 px-4 py-2 rounded-full">
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
-}
+};
+
+export default PlantDetailPage;
