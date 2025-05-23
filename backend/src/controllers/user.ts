@@ -1,7 +1,9 @@
 import type { Context } from "hono";
 import {
   addplant,
+  createPost,
   createUser,
+  getAllPosts,
   getPlantsByUserId,
   getUserById,
   isLogin,
@@ -11,6 +13,7 @@ import {
   updateUserDataWithOutImage,
 } from "../models/user";
 import { uploadToCloudinary } from "../services/cloudinary";
+import { PlantStatus } from "../generated/prisma";
 
 type singUpType = {
   firstName: string;
@@ -148,8 +151,9 @@ const updatePlant = async (c: Context) => {
     const plantName = body["plantName"] as string;
     const plantNickName = body["plantNickName"] as string;
     const setTime = body["reminderTime"] as string;
+    const plantStatus = body["plantStatus"] as string;
     const img = body["image"] as File;
-
+    const statusEnum = plantStatus.toUpperCase() as keyof typeof PlantStatus;
     if (!img) {
       const addedPlant = await updatePlantDataWithOutImage(
         Number(plantId),
@@ -157,6 +161,7 @@ const updatePlant = async (c: Context) => {
         plantName,
         plantNickName,
         setTime,
+        PlantStatus[statusEnum],
       );
 
       return c.json({
@@ -172,6 +177,7 @@ const updatePlant = async (c: Context) => {
       plantName,
       plantNickName,
       setTime,
+      PlantStatus[statusEnum],
       imageResult.secure_url,
     );
 
@@ -255,6 +261,35 @@ const getPlants = async (c: Context) => {
   }
 };
 
+const post = async (c: Context) => {
+  try {
+    const { userId, plantId } = await c.req.json();
+
+    // Basic validation
+    if (!userId || !plantId) {
+      return c.json({ error: "userId and plantId are required" }, 400);
+    }
+
+    // Call the model to create the post
+    const newPost = await createPost(userId, plantId);
+
+    return c.json({ message: "Post created successfully", post: newPost }, 201);
+  } catch (error) {
+    console.error("Error creating post:", error);
+    return c.json({ error: "Failed to create post" }, 500);
+  }
+};
+
+const posts = async (c: Context) => {
+  try {
+    const posts = await getAllPosts();
+    return c.json({ posts }, 200);
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    return c.json({ error: "Failed to retrieve posts" }, 500);
+  }
+};
+
 export {
   signUp,
   login,
@@ -263,4 +298,6 @@ export {
   getUser,
   updateUser,
   updatePlant,
+  post,
+  posts,
 };

@@ -33,6 +33,11 @@ export type Plant = $Result.DefaultSelection<Prisma.$PlantPayload>
  * 
  */
 export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
+/**
+ * Model DayStreak
+ * 
+ */
+export type DayStreak = $Result.DefaultSelection<Prisma.$DayStreakPayload>
 
 /**
  * Enums
@@ -215,6 +220,16 @@ export class PrismaClient<
     * ```
     */
   get post(): Prisma.PostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dayStreak`: Exposes CRUD operations for the **DayStreak** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DayStreaks
+    * const dayStreaks = await prisma.dayStreak.findMany()
+    * ```
+    */
+  get dayStreak(): Prisma.DayStreakDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -658,7 +673,8 @@ export namespace Prisma {
     User: 'User',
     Subscription: 'Subscription',
     Plant: 'Plant',
-    Post: 'Post'
+    Post: 'Post',
+    DayStreak: 'DayStreak'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -677,7 +693,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "subscription" | "plant" | "post"
+      modelProps: "user" | "subscription" | "plant" | "post" | "dayStreak"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -977,6 +993,80 @@ export namespace Prisma {
           }
         }
       }
+      DayStreak: {
+        payload: Prisma.$DayStreakPayload<ExtArgs>
+        fields: Prisma.DayStreakFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DayStreakFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DayStreakFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>
+          }
+          findFirst: {
+            args: Prisma.DayStreakFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DayStreakFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>
+          }
+          findMany: {
+            args: Prisma.DayStreakFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>[]
+          }
+          create: {
+            args: Prisma.DayStreakCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>
+          }
+          createMany: {
+            args: Prisma.DayStreakCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DayStreakCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>[]
+          }
+          delete: {
+            args: Prisma.DayStreakDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>
+          }
+          update: {
+            args: Prisma.DayStreakUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>
+          }
+          deleteMany: {
+            args: Prisma.DayStreakDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DayStreakUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DayStreakUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>[]
+          }
+          upsert: {
+            args: Prisma.DayStreakUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DayStreakPayload>
+          }
+          aggregate: {
+            args: Prisma.DayStreakAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDayStreak>
+          }
+          groupBy: {
+            args: Prisma.DayStreakGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DayStreakGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DayStreakCountArgs<ExtArgs>
+            result: $Utils.Optional<DayStreakCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1065,6 +1155,7 @@ export namespace Prisma {
     subscription?: SubscriptionOmit
     plant?: PlantOmit
     post?: PostOmit
+    dayStreak?: DayStreakOmit
   }
 
   /* Types for Logging */
@@ -1162,12 +1253,14 @@ export namespace Prisma {
     plants: number
     posts: number
     subscriptions: number
+    daystreaks: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plants?: boolean | UserCountOutputTypeCountPlantsArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
     subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
+    daystreaks?: boolean | UserCountOutputTypeCountDaystreaksArgs
   }
 
   // Custom InputTypes
@@ -1202,6 +1295,13 @@ export namespace Prisma {
     where?: SubscriptionWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDaystreaksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DayStreakWhereInput
+  }
+
 
   /**
    * Count Type PlantCountOutputType
@@ -1209,10 +1309,12 @@ export namespace Prisma {
 
   export type PlantCountOutputType = {
     posts: number
+    daystreaks: number
   }
 
   export type PlantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     posts?: boolean | PlantCountOutputTypeCountPostsArgs
+    daystreaks?: boolean | PlantCountOutputTypeCountDaystreaksArgs
   }
 
   // Custom InputTypes
@@ -1231,6 +1333,13 @@ export namespace Prisma {
    */
   export type PlantCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostWhereInput
+  }
+
+  /**
+   * PlantCountOutputType without action
+   */
+  export type PlantCountOutputTypeCountDaystreaksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DayStreakWhereInput
   }
 
 
@@ -1471,6 +1580,7 @@ export namespace Prisma {
     plants?: boolean | User$plantsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
+    daystreaks?: boolean | User$daystreaksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1515,6 +1625,7 @@ export namespace Prisma {
     plants?: boolean | User$plantsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
+    daystreaks?: boolean | User$daystreaksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1526,6 +1637,7 @@ export namespace Prisma {
       plants: Prisma.$PlantPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
       subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
+      daystreaks: Prisma.$DayStreakPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1934,6 +2046,7 @@ export namespace Prisma {
     plants<T extends User$plantsArgs<ExtArgs> = {}>(args?: Subset<T, User$plantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     subscriptions<T extends User$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    daystreaks<T extends User$daystreaksArgs<ExtArgs> = {}>(args?: Subset<T, User$daystreaksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2429,6 +2542,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * User.daystreaks
+   */
+  export type User$daystreaksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    where?: DayStreakWhereInput
+    orderBy?: DayStreakOrderByWithRelationInput | DayStreakOrderByWithRelationInput[]
+    cursor?: DayStreakWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DayStreakScalarFieldEnum | DayStreakScalarFieldEnum[]
   }
 
   /**
@@ -3786,6 +3923,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     posts?: boolean | Plant$postsArgs<ExtArgs>
+    daystreaks?: boolean | Plant$daystreaksArgs<ExtArgs>
     _count?: boolean | PlantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["plant"]>
 
@@ -3834,6 +3972,7 @@ export namespace Prisma {
   export type PlantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     posts?: boolean | Plant$postsArgs<ExtArgs>
+    daystreaks?: boolean | Plant$daystreaksArgs<ExtArgs>
     _count?: boolean | PlantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PlantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3848,6 +3987,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       posts: Prisma.$PostPayload<ExtArgs>[]
+      daystreaks: Prisma.$DayStreakPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4256,6 +4396,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     posts<T extends Plant$postsArgs<ExtArgs> = {}>(args?: Subset<T, Plant$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    daystreaks<T extends Plant$daystreaksArgs<ExtArgs> = {}>(args?: Subset<T, Plant$daystreaksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4712,6 +4853,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+  /**
+   * Plant.daystreaks
+   */
+  export type Plant$daystreaksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    where?: DayStreakWhereInput
+    orderBy?: DayStreakOrderByWithRelationInput | DayStreakOrderByWithRelationInput[]
+    cursor?: DayStreakWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DayStreakScalarFieldEnum | DayStreakScalarFieldEnum[]
   }
 
   /**
@@ -5855,6 +6020,1131 @@ export namespace Prisma {
 
 
   /**
+   * Model DayStreak
+   */
+
+  export type AggregateDayStreak = {
+    _count: DayStreakCountAggregateOutputType | null
+    _avg: DayStreakAvgAggregateOutputType | null
+    _sum: DayStreakSumAggregateOutputType | null
+    _min: DayStreakMinAggregateOutputType | null
+    _max: DayStreakMaxAggregateOutputType | null
+  }
+
+  export type DayStreakAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    plantId: number | null
+    streak: number | null
+  }
+
+  export type DayStreakSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    plantId: number | null
+    streak: number | null
+  }
+
+  export type DayStreakMinAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    plantId: number | null
+    streak: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DayStreakMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    plantId: number | null
+    streak: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DayStreakCountAggregateOutputType = {
+    id: number
+    userId: number
+    plantId: number
+    streak: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DayStreakAvgAggregateInputType = {
+    id?: true
+    userId?: true
+    plantId?: true
+    streak?: true
+  }
+
+  export type DayStreakSumAggregateInputType = {
+    id?: true
+    userId?: true
+    plantId?: true
+    streak?: true
+  }
+
+  export type DayStreakMinAggregateInputType = {
+    id?: true
+    userId?: true
+    plantId?: true
+    streak?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DayStreakMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    plantId?: true
+    streak?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DayStreakCountAggregateInputType = {
+    id?: true
+    userId?: true
+    plantId?: true
+    streak?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DayStreakAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DayStreak to aggregate.
+     */
+    where?: DayStreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DayStreaks to fetch.
+     */
+    orderBy?: DayStreakOrderByWithRelationInput | DayStreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DayStreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DayStreaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DayStreaks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DayStreaks
+    **/
+    _count?: true | DayStreakCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DayStreakAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DayStreakSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DayStreakMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DayStreakMaxAggregateInputType
+  }
+
+  export type GetDayStreakAggregateType<T extends DayStreakAggregateArgs> = {
+        [P in keyof T & keyof AggregateDayStreak]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDayStreak[P]>
+      : GetScalarType<T[P], AggregateDayStreak[P]>
+  }
+
+
+
+
+  export type DayStreakGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DayStreakWhereInput
+    orderBy?: DayStreakOrderByWithAggregationInput | DayStreakOrderByWithAggregationInput[]
+    by: DayStreakScalarFieldEnum[] | DayStreakScalarFieldEnum
+    having?: DayStreakScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DayStreakCountAggregateInputType | true
+    _avg?: DayStreakAvgAggregateInputType
+    _sum?: DayStreakSumAggregateInputType
+    _min?: DayStreakMinAggregateInputType
+    _max?: DayStreakMaxAggregateInputType
+  }
+
+  export type DayStreakGroupByOutputType = {
+    id: number
+    userId: number
+    plantId: number
+    streak: number
+    createdAt: Date
+    updatedAt: Date
+    _count: DayStreakCountAggregateOutputType | null
+    _avg: DayStreakAvgAggregateOutputType | null
+    _sum: DayStreakSumAggregateOutputType | null
+    _min: DayStreakMinAggregateOutputType | null
+    _max: DayStreakMaxAggregateOutputType | null
+  }
+
+  type GetDayStreakGroupByPayload<T extends DayStreakGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DayStreakGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DayStreakGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DayStreakGroupByOutputType[P]>
+            : GetScalarType<T[P], DayStreakGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DayStreakSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    plantId?: boolean
+    streak?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    plant?: boolean | PlantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dayStreak"]>
+
+  export type DayStreakSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    plantId?: boolean
+    streak?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    plant?: boolean | PlantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dayStreak"]>
+
+  export type DayStreakSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    plantId?: boolean
+    streak?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    plant?: boolean | PlantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dayStreak"]>
+
+  export type DayStreakSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    plantId?: boolean
+    streak?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DayStreakOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "plantId" | "streak" | "createdAt" | "updatedAt", ExtArgs["result"]["dayStreak"]>
+  export type DayStreakInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    plant?: boolean | PlantDefaultArgs<ExtArgs>
+  }
+  export type DayStreakIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    plant?: boolean | PlantDefaultArgs<ExtArgs>
+  }
+  export type DayStreakIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    plant?: boolean | PlantDefaultArgs<ExtArgs>
+  }
+
+  export type $DayStreakPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DayStreak"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      plant: Prisma.$PlantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: number
+      plantId: number
+      streak: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dayStreak"]>
+    composites: {}
+  }
+
+  type DayStreakGetPayload<S extends boolean | null | undefined | DayStreakDefaultArgs> = $Result.GetResult<Prisma.$DayStreakPayload, S>
+
+  type DayStreakCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DayStreakFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DayStreakCountAggregateInputType | true
+    }
+
+  export interface DayStreakDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DayStreak'], meta: { name: 'DayStreak' } }
+    /**
+     * Find zero or one DayStreak that matches the filter.
+     * @param {DayStreakFindUniqueArgs} args - Arguments to find a DayStreak
+     * @example
+     * // Get one DayStreak
+     * const dayStreak = await prisma.dayStreak.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DayStreakFindUniqueArgs>(args: SelectSubset<T, DayStreakFindUniqueArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DayStreak that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DayStreakFindUniqueOrThrowArgs} args - Arguments to find a DayStreak
+     * @example
+     * // Get one DayStreak
+     * const dayStreak = await prisma.dayStreak.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DayStreakFindUniqueOrThrowArgs>(args: SelectSubset<T, DayStreakFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DayStreak that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DayStreakFindFirstArgs} args - Arguments to find a DayStreak
+     * @example
+     * // Get one DayStreak
+     * const dayStreak = await prisma.dayStreak.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DayStreakFindFirstArgs>(args?: SelectSubset<T, DayStreakFindFirstArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DayStreak that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DayStreakFindFirstOrThrowArgs} args - Arguments to find a DayStreak
+     * @example
+     * // Get one DayStreak
+     * const dayStreak = await prisma.dayStreak.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DayStreakFindFirstOrThrowArgs>(args?: SelectSubset<T, DayStreakFindFirstOrThrowArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DayStreaks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DayStreakFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DayStreaks
+     * const dayStreaks = await prisma.dayStreak.findMany()
+     * 
+     * // Get first 10 DayStreaks
+     * const dayStreaks = await prisma.dayStreak.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dayStreakWithIdOnly = await prisma.dayStreak.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DayStreakFindManyArgs>(args?: SelectSubset<T, DayStreakFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DayStreak.
+     * @param {DayStreakCreateArgs} args - Arguments to create a DayStreak.
+     * @example
+     * // Create one DayStreak
+     * const DayStreak = await prisma.dayStreak.create({
+     *   data: {
+     *     // ... data to create a DayStreak
+     *   }
+     * })
+     * 
+     */
+    create<T extends DayStreakCreateArgs>(args: SelectSubset<T, DayStreakCreateArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DayStreaks.
+     * @param {DayStreakCreateManyArgs} args - Arguments to create many DayStreaks.
+     * @example
+     * // Create many DayStreaks
+     * const dayStreak = await prisma.dayStreak.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DayStreakCreateManyArgs>(args?: SelectSubset<T, DayStreakCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DayStreaks and returns the data saved in the database.
+     * @param {DayStreakCreateManyAndReturnArgs} args - Arguments to create many DayStreaks.
+     * @example
+     * // Create many DayStreaks
+     * const dayStreak = await prisma.dayStreak.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DayStreaks and only return the `id`
+     * const dayStreakWithIdOnly = await prisma.dayStreak.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DayStreakCreateManyAndReturnArgs>(args?: SelectSubset<T, DayStreakCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DayStreak.
+     * @param {DayStreakDeleteArgs} args - Arguments to delete one DayStreak.
+     * @example
+     * // Delete one DayStreak
+     * const DayStreak = await prisma.dayStreak.delete({
+     *   where: {
+     *     // ... filter to delete one DayStreak
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DayStreakDeleteArgs>(args: SelectSubset<T, DayStreakDeleteArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DayStreak.
+     * @param {DayStreakUpdateArgs} args - Arguments to update one DayStreak.
+     * @example
+     * // Update one DayStreak
+     * const dayStreak = await prisma.dayStreak.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DayStreakUpdateArgs>(args: SelectSubset<T, DayStreakUpdateArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DayStreaks.
+     * @param {DayStreakDeleteManyArgs} args - Arguments to filter DayStreaks to delete.
+     * @example
+     * // Delete a few DayStreaks
+     * const { count } = await prisma.dayStreak.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DayStreakDeleteManyArgs>(args?: SelectSubset<T, DayStreakDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DayStreaks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DayStreakUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DayStreaks
+     * const dayStreak = await prisma.dayStreak.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DayStreakUpdateManyArgs>(args: SelectSubset<T, DayStreakUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DayStreaks and returns the data updated in the database.
+     * @param {DayStreakUpdateManyAndReturnArgs} args - Arguments to update many DayStreaks.
+     * @example
+     * // Update many DayStreaks
+     * const dayStreak = await prisma.dayStreak.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DayStreaks and only return the `id`
+     * const dayStreakWithIdOnly = await prisma.dayStreak.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DayStreakUpdateManyAndReturnArgs>(args: SelectSubset<T, DayStreakUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DayStreak.
+     * @param {DayStreakUpsertArgs} args - Arguments to update or create a DayStreak.
+     * @example
+     * // Update or create a DayStreak
+     * const dayStreak = await prisma.dayStreak.upsert({
+     *   create: {
+     *     // ... data to create a DayStreak
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DayStreak we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DayStreakUpsertArgs>(args: SelectSubset<T, DayStreakUpsertArgs<ExtArgs>>): Prisma__DayStreakClient<$Result.GetResult<Prisma.$DayStreakPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DayStreaks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DayStreakCountArgs} args - Arguments to filter DayStreaks to count.
+     * @example
+     * // Count the number of DayStreaks
+     * const count = await prisma.dayStreak.count({
+     *   where: {
+     *     // ... the filter for the DayStreaks we want to count
+     *   }
+     * })
+    **/
+    count<T extends DayStreakCountArgs>(
+      args?: Subset<T, DayStreakCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DayStreakCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DayStreak.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DayStreakAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DayStreakAggregateArgs>(args: Subset<T, DayStreakAggregateArgs>): Prisma.PrismaPromise<GetDayStreakAggregateType<T>>
+
+    /**
+     * Group by DayStreak.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DayStreakGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DayStreakGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DayStreakGroupByArgs['orderBy'] }
+        : { orderBy?: DayStreakGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DayStreakGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDayStreakGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DayStreak model
+   */
+  readonly fields: DayStreakFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DayStreak.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DayStreakClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    plant<T extends PlantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlantDefaultArgs<ExtArgs>>): Prisma__PlantClient<$Result.GetResult<Prisma.$PlantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DayStreak model
+   */
+  interface DayStreakFieldRefs {
+    readonly id: FieldRef<"DayStreak", 'Int'>
+    readonly userId: FieldRef<"DayStreak", 'Int'>
+    readonly plantId: FieldRef<"DayStreak", 'Int'>
+    readonly streak: FieldRef<"DayStreak", 'Int'>
+    readonly createdAt: FieldRef<"DayStreak", 'DateTime'>
+    readonly updatedAt: FieldRef<"DayStreak", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DayStreak findUnique
+   */
+  export type DayStreakFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * Filter, which DayStreak to fetch.
+     */
+    where: DayStreakWhereUniqueInput
+  }
+
+  /**
+   * DayStreak findUniqueOrThrow
+   */
+  export type DayStreakFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * Filter, which DayStreak to fetch.
+     */
+    where: DayStreakWhereUniqueInput
+  }
+
+  /**
+   * DayStreak findFirst
+   */
+  export type DayStreakFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * Filter, which DayStreak to fetch.
+     */
+    where?: DayStreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DayStreaks to fetch.
+     */
+    orderBy?: DayStreakOrderByWithRelationInput | DayStreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DayStreaks.
+     */
+    cursor?: DayStreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DayStreaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DayStreaks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DayStreaks.
+     */
+    distinct?: DayStreakScalarFieldEnum | DayStreakScalarFieldEnum[]
+  }
+
+  /**
+   * DayStreak findFirstOrThrow
+   */
+  export type DayStreakFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * Filter, which DayStreak to fetch.
+     */
+    where?: DayStreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DayStreaks to fetch.
+     */
+    orderBy?: DayStreakOrderByWithRelationInput | DayStreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DayStreaks.
+     */
+    cursor?: DayStreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DayStreaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DayStreaks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DayStreaks.
+     */
+    distinct?: DayStreakScalarFieldEnum | DayStreakScalarFieldEnum[]
+  }
+
+  /**
+   * DayStreak findMany
+   */
+  export type DayStreakFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * Filter, which DayStreaks to fetch.
+     */
+    where?: DayStreakWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DayStreaks to fetch.
+     */
+    orderBy?: DayStreakOrderByWithRelationInput | DayStreakOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DayStreaks.
+     */
+    cursor?: DayStreakWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DayStreaks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DayStreaks.
+     */
+    skip?: number
+    distinct?: DayStreakScalarFieldEnum | DayStreakScalarFieldEnum[]
+  }
+
+  /**
+   * DayStreak create
+   */
+  export type DayStreakCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DayStreak.
+     */
+    data: XOR<DayStreakCreateInput, DayStreakUncheckedCreateInput>
+  }
+
+  /**
+   * DayStreak createMany
+   */
+  export type DayStreakCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DayStreaks.
+     */
+    data: DayStreakCreateManyInput | DayStreakCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DayStreak createManyAndReturn
+   */
+  export type DayStreakCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * The data used to create many DayStreaks.
+     */
+    data: DayStreakCreateManyInput | DayStreakCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DayStreak update
+   */
+  export type DayStreakUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DayStreak.
+     */
+    data: XOR<DayStreakUpdateInput, DayStreakUncheckedUpdateInput>
+    /**
+     * Choose, which DayStreak to update.
+     */
+    where: DayStreakWhereUniqueInput
+  }
+
+  /**
+   * DayStreak updateMany
+   */
+  export type DayStreakUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DayStreaks.
+     */
+    data: XOR<DayStreakUpdateManyMutationInput, DayStreakUncheckedUpdateManyInput>
+    /**
+     * Filter which DayStreaks to update
+     */
+    where?: DayStreakWhereInput
+    /**
+     * Limit how many DayStreaks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DayStreak updateManyAndReturn
+   */
+  export type DayStreakUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * The data used to update DayStreaks.
+     */
+    data: XOR<DayStreakUpdateManyMutationInput, DayStreakUncheckedUpdateManyInput>
+    /**
+     * Filter which DayStreaks to update
+     */
+    where?: DayStreakWhereInput
+    /**
+     * Limit how many DayStreaks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DayStreak upsert
+   */
+  export type DayStreakUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DayStreak to update in case it exists.
+     */
+    where: DayStreakWhereUniqueInput
+    /**
+     * In case the DayStreak found by the `where` argument doesn't exist, create a new DayStreak with this data.
+     */
+    create: XOR<DayStreakCreateInput, DayStreakUncheckedCreateInput>
+    /**
+     * In case the DayStreak was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DayStreakUpdateInput, DayStreakUncheckedUpdateInput>
+  }
+
+  /**
+   * DayStreak delete
+   */
+  export type DayStreakDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+    /**
+     * Filter which DayStreak to delete.
+     */
+    where: DayStreakWhereUniqueInput
+  }
+
+  /**
+   * DayStreak deleteMany
+   */
+  export type DayStreakDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DayStreaks to delete
+     */
+    where?: DayStreakWhereInput
+    /**
+     * Limit how many DayStreaks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DayStreak without action
+   */
+  export type DayStreakDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DayStreak
+     */
+    select?: DayStreakSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DayStreak
+     */
+    omit?: DayStreakOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DayStreakInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5920,6 +7210,18 @@ export namespace Prisma {
   };
 
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+  export const DayStreakScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    plantId: 'plantId',
+    streak: 'streak',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DayStreakScalarFieldEnum = (typeof DayStreakScalarFieldEnum)[keyof typeof DayStreakScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6077,6 +7379,7 @@ export namespace Prisma {
     plants?: PlantListRelationFilter
     posts?: PostListRelationFilter
     subscriptions?: SubscriptionListRelationFilter
+    daystreaks?: DayStreakListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6092,6 +7395,7 @@ export namespace Prisma {
     plants?: PlantOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
     subscriptions?: SubscriptionOrderByRelationAggregateInput
+    daystreaks?: DayStreakOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6110,6 +7414,7 @@ export namespace Prisma {
     plants?: PlantListRelationFilter
     posts?: PostListRelationFilter
     subscriptions?: SubscriptionListRelationFilter
+    daystreaks?: DayStreakListRelationFilter
   }, "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -6217,6 +7522,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Plant"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     posts?: PostListRelationFilter
+    daystreaks?: DayStreakListRelationFilter
   }
 
   export type PlantOrderByWithRelationInput = {
@@ -6232,6 +7538,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     posts?: PostOrderByRelationAggregateInput
+    daystreaks?: DayStreakOrderByRelationAggregateInput
   }
 
   export type PlantWhereUniqueInput = Prisma.AtLeast<{
@@ -6250,6 +7557,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Plant"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     posts?: PostListRelationFilter
+    daystreaks?: DayStreakListRelationFilter
   }, "id">
 
   export type PlantOrderByWithAggregationInput = {
@@ -6351,6 +7659,71 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
   }
 
+  export type DayStreakWhereInput = {
+    AND?: DayStreakWhereInput | DayStreakWhereInput[]
+    OR?: DayStreakWhereInput[]
+    NOT?: DayStreakWhereInput | DayStreakWhereInput[]
+    id?: IntFilter<"DayStreak"> | number
+    userId?: IntFilter<"DayStreak"> | number
+    plantId?: IntFilter<"DayStreak"> | number
+    streak?: IntFilter<"DayStreak"> | number
+    createdAt?: DateTimeFilter<"DayStreak"> | Date | string
+    updatedAt?: DateTimeFilter<"DayStreak"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    plant?: XOR<PlantScalarRelationFilter, PlantWhereInput>
+  }
+
+  export type DayStreakOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    plantId?: SortOrder
+    streak?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    plant?: PlantOrderByWithRelationInput
+  }
+
+  export type DayStreakWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: DayStreakWhereInput | DayStreakWhereInput[]
+    OR?: DayStreakWhereInput[]
+    NOT?: DayStreakWhereInput | DayStreakWhereInput[]
+    userId?: IntFilter<"DayStreak"> | number
+    plantId?: IntFilter<"DayStreak"> | number
+    streak?: IntFilter<"DayStreak"> | number
+    createdAt?: DateTimeFilter<"DayStreak"> | Date | string
+    updatedAt?: DateTimeFilter<"DayStreak"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    plant?: XOR<PlantScalarRelationFilter, PlantWhereInput>
+  }, "id">
+
+  export type DayStreakOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    plantId?: SortOrder
+    streak?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DayStreakCountOrderByAggregateInput
+    _avg?: DayStreakAvgOrderByAggregateInput
+    _max?: DayStreakMaxOrderByAggregateInput
+    _min?: DayStreakMinOrderByAggregateInput
+    _sum?: DayStreakSumOrderByAggregateInput
+  }
+
+  export type DayStreakScalarWhereWithAggregatesInput = {
+    AND?: DayStreakScalarWhereWithAggregatesInput | DayStreakScalarWhereWithAggregatesInput[]
+    OR?: DayStreakScalarWhereWithAggregatesInput[]
+    NOT?: DayStreakScalarWhereWithAggregatesInput | DayStreakScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"DayStreak"> | number
+    userId?: IntWithAggregatesFilter<"DayStreak"> | number
+    plantId?: IntWithAggregatesFilter<"DayStreak"> | number
+    streak?: IntWithAggregatesFilter<"DayStreak"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"DayStreak"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DayStreak"> | Date | string
+  }
+
   export type UserCreateInput = {
     firstname: string
     lastname: string
@@ -6363,6 +7736,7 @@ export namespace Prisma {
     plants?: PlantCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -6378,6 +7752,7 @@ export namespace Prisma {
     plants?: PlantUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -6392,6 +7767,7 @@ export namespace Prisma {
     plants?: PlantUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -6407,6 +7783,7 @@ export namespace Prisma {
     plants?: PlantUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -6507,6 +7884,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPlantsInput
     posts?: PostCreateNestedManyWithoutPlantInput
+    daystreaks?: DayStreakCreateNestedManyWithoutPlantInput
   }
 
   export type PlantUncheckedCreateInput = {
@@ -6521,6 +7899,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     posts?: PostUncheckedCreateNestedManyWithoutPlantInput
+    daystreaks?: DayStreakUncheckedCreateNestedManyWithoutPlantInput
   }
 
   export type PlantUpdateInput = {
@@ -6534,6 +7913,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPlantsNestedInput
     posts?: PostUpdateManyWithoutPlantNestedInput
+    daystreaks?: DayStreakUpdateManyWithoutPlantNestedInput
   }
 
   export type PlantUncheckedUpdateInput = {
@@ -6548,6 +7928,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUncheckedUpdateManyWithoutPlantNestedInput
+    daystreaks?: DayStreakUncheckedUpdateManyWithoutPlantNestedInput
   }
 
   export type PlantCreateManyInput = {
@@ -6645,6 +8026,64 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DayStreakCreateInput = {
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDaystreaksInput
+    plant: PlantCreateNestedOneWithoutDaystreaksInput
+  }
+
+  export type DayStreakUncheckedCreateInput = {
+    id?: number
+    userId: number
+    plantId: number
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DayStreakUpdateInput = {
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDaystreaksNestedInput
+    plant?: PlantUpdateOneRequiredWithoutDaystreaksNestedInput
+  }
+
+  export type DayStreakUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    plantId?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DayStreakCreateManyInput = {
+    id?: number
+    userId: number
+    plantId: number
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DayStreakUpdateManyMutationInput = {
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DayStreakUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    plantId?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -6700,6 +8139,12 @@ export namespace Prisma {
     none?: SubscriptionWhereInput
   }
 
+  export type DayStreakListRelationFilter = {
+    every?: DayStreakWhereInput
+    some?: DayStreakWhereInput
+    none?: DayStreakWhereInput
+  }
+
   export type PlantOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -6709,6 +8154,10 @@ export namespace Prisma {
   }
 
   export type SubscriptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DayStreakOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7043,6 +8492,47 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DayStreakCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    plantId?: SortOrder
+    streak?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DayStreakAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    plantId?: SortOrder
+    streak?: SortOrder
+  }
+
+  export type DayStreakMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    plantId?: SortOrder
+    streak?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DayStreakMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    plantId?: SortOrder
+    streak?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DayStreakSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    plantId?: SortOrder
+    streak?: SortOrder
+  }
+
   export type PlantCreateNestedManyWithoutUserInput = {
     create?: XOR<PlantCreateWithoutUserInput, PlantUncheckedCreateWithoutUserInput> | PlantCreateWithoutUserInput[] | PlantUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PlantCreateOrConnectWithoutUserInput | PlantCreateOrConnectWithoutUserInput[]
@@ -7064,6 +8554,13 @@ export namespace Prisma {
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
+  export type DayStreakCreateNestedManyWithoutUserInput = {
+    create?: XOR<DayStreakCreateWithoutUserInput, DayStreakUncheckedCreateWithoutUserInput> | DayStreakCreateWithoutUserInput[] | DayStreakUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutUserInput | DayStreakCreateOrConnectWithoutUserInput[]
+    createMany?: DayStreakCreateManyUserInputEnvelope
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+  }
+
   export type PlantUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<PlantCreateWithoutUserInput, PlantUncheckedCreateWithoutUserInput> | PlantCreateWithoutUserInput[] | PlantUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PlantCreateOrConnectWithoutUserInput | PlantCreateOrConnectWithoutUserInput[]
@@ -7083,6 +8580,13 @@ export namespace Prisma {
     connectOrCreate?: SubscriptionCreateOrConnectWithoutUserInput | SubscriptionCreateOrConnectWithoutUserInput[]
     createMany?: SubscriptionCreateManyUserInputEnvelope
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type DayStreakUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DayStreakCreateWithoutUserInput, DayStreakUncheckedCreateWithoutUserInput> | DayStreakCreateWithoutUserInput[] | DayStreakUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutUserInput | DayStreakCreateOrConnectWithoutUserInput[]
+    createMany?: DayStreakCreateManyUserInputEnvelope
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -7135,6 +8639,20 @@ export namespace Prisma {
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
+  export type DayStreakUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DayStreakCreateWithoutUserInput, DayStreakUncheckedCreateWithoutUserInput> | DayStreakCreateWithoutUserInput[] | DayStreakUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutUserInput | DayStreakCreateOrConnectWithoutUserInput[]
+    upsert?: DayStreakUpsertWithWhereUniqueWithoutUserInput | DayStreakUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DayStreakCreateManyUserInputEnvelope
+    set?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    disconnect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    delete?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    update?: DayStreakUpdateWithWhereUniqueWithoutUserInput | DayStreakUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DayStreakUpdateManyWithWhereWithoutUserInput | DayStreakUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DayStreakScalarWhereInput | DayStreakScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -7185,6 +8703,20 @@ export namespace Prisma {
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
+  export type DayStreakUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DayStreakCreateWithoutUserInput, DayStreakUncheckedCreateWithoutUserInput> | DayStreakCreateWithoutUserInput[] | DayStreakUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutUserInput | DayStreakCreateOrConnectWithoutUserInput[]
+    upsert?: DayStreakUpsertWithWhereUniqueWithoutUserInput | DayStreakUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DayStreakCreateManyUserInputEnvelope
+    set?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    disconnect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    delete?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    update?: DayStreakUpdateWithWhereUniqueWithoutUserInput | DayStreakUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DayStreakUpdateManyWithWhereWithoutUserInput | DayStreakUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DayStreakScalarWhereInput | DayStreakScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutSubscriptionsInput = {
     create?: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSubscriptionsInput
@@ -7212,11 +8744,25 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
+  export type DayStreakCreateNestedManyWithoutPlantInput = {
+    create?: XOR<DayStreakCreateWithoutPlantInput, DayStreakUncheckedCreateWithoutPlantInput> | DayStreakCreateWithoutPlantInput[] | DayStreakUncheckedCreateWithoutPlantInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutPlantInput | DayStreakCreateOrConnectWithoutPlantInput[]
+    createMany?: DayStreakCreateManyPlantInputEnvelope
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+  }
+
   export type PostUncheckedCreateNestedManyWithoutPlantInput = {
     create?: XOR<PostCreateWithoutPlantInput, PostUncheckedCreateWithoutPlantInput> | PostCreateWithoutPlantInput[] | PostUncheckedCreateWithoutPlantInput[]
     connectOrCreate?: PostCreateOrConnectWithoutPlantInput | PostCreateOrConnectWithoutPlantInput[]
     createMany?: PostCreateManyPlantInputEnvelope
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
+  export type DayStreakUncheckedCreateNestedManyWithoutPlantInput = {
+    create?: XOR<DayStreakCreateWithoutPlantInput, DayStreakUncheckedCreateWithoutPlantInput> | DayStreakCreateWithoutPlantInput[] | DayStreakUncheckedCreateWithoutPlantInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutPlantInput | DayStreakCreateOrConnectWithoutPlantInput[]
+    createMany?: DayStreakCreateManyPlantInputEnvelope
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
   }
 
   export type EnumPlantStatusFieldUpdateOperationsInput = {
@@ -7249,6 +8795,20 @@ export namespace Prisma {
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
+  export type DayStreakUpdateManyWithoutPlantNestedInput = {
+    create?: XOR<DayStreakCreateWithoutPlantInput, DayStreakUncheckedCreateWithoutPlantInput> | DayStreakCreateWithoutPlantInput[] | DayStreakUncheckedCreateWithoutPlantInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutPlantInput | DayStreakCreateOrConnectWithoutPlantInput[]
+    upsert?: DayStreakUpsertWithWhereUniqueWithoutPlantInput | DayStreakUpsertWithWhereUniqueWithoutPlantInput[]
+    createMany?: DayStreakCreateManyPlantInputEnvelope
+    set?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    disconnect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    delete?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    update?: DayStreakUpdateWithWhereUniqueWithoutPlantInput | DayStreakUpdateWithWhereUniqueWithoutPlantInput[]
+    updateMany?: DayStreakUpdateManyWithWhereWithoutPlantInput | DayStreakUpdateManyWithWhereWithoutPlantInput[]
+    deleteMany?: DayStreakScalarWhereInput | DayStreakScalarWhereInput[]
+  }
+
   export type PostUncheckedUpdateManyWithoutPlantNestedInput = {
     create?: XOR<PostCreateWithoutPlantInput, PostUncheckedCreateWithoutPlantInput> | PostCreateWithoutPlantInput[] | PostUncheckedCreateWithoutPlantInput[]
     connectOrCreate?: PostCreateOrConnectWithoutPlantInput | PostCreateOrConnectWithoutPlantInput[]
@@ -7261,6 +8821,20 @@ export namespace Prisma {
     update?: PostUpdateWithWhereUniqueWithoutPlantInput | PostUpdateWithWhereUniqueWithoutPlantInput[]
     updateMany?: PostUpdateManyWithWhereWithoutPlantInput | PostUpdateManyWithWhereWithoutPlantInput[]
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type DayStreakUncheckedUpdateManyWithoutPlantNestedInput = {
+    create?: XOR<DayStreakCreateWithoutPlantInput, DayStreakUncheckedCreateWithoutPlantInput> | DayStreakCreateWithoutPlantInput[] | DayStreakUncheckedCreateWithoutPlantInput[]
+    connectOrCreate?: DayStreakCreateOrConnectWithoutPlantInput | DayStreakCreateOrConnectWithoutPlantInput[]
+    upsert?: DayStreakUpsertWithWhereUniqueWithoutPlantInput | DayStreakUpsertWithWhereUniqueWithoutPlantInput[]
+    createMany?: DayStreakCreateManyPlantInputEnvelope
+    set?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    disconnect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    delete?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    connect?: DayStreakWhereUniqueInput | DayStreakWhereUniqueInput[]
+    update?: DayStreakUpdateWithWhereUniqueWithoutPlantInput | DayStreakUpdateWithWhereUniqueWithoutPlantInput[]
+    updateMany?: DayStreakUpdateManyWithWhereWithoutPlantInput | DayStreakUpdateManyWithWhereWithoutPlantInput[]
+    deleteMany?: DayStreakScalarWhereInput | DayStreakScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutPostsInput = {
@@ -7293,6 +8867,34 @@ export namespace Prisma {
     upsert?: PlantUpsertWithoutPostsInput
     connect?: PlantWhereUniqueInput
     update?: XOR<XOR<PlantUpdateToOneWithWhereWithoutPostsInput, PlantUpdateWithoutPostsInput>, PlantUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type UserCreateNestedOneWithoutDaystreaksInput = {
+    create?: XOR<UserCreateWithoutDaystreaksInput, UserUncheckedCreateWithoutDaystreaksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDaystreaksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PlantCreateNestedOneWithoutDaystreaksInput = {
+    create?: XOR<PlantCreateWithoutDaystreaksInput, PlantUncheckedCreateWithoutDaystreaksInput>
+    connectOrCreate?: PlantCreateOrConnectWithoutDaystreaksInput
+    connect?: PlantWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDaystreaksNestedInput = {
+    create?: XOR<UserCreateWithoutDaystreaksInput, UserUncheckedCreateWithoutDaystreaksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDaystreaksInput
+    upsert?: UserUpsertWithoutDaystreaksInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDaystreaksInput, UserUpdateWithoutDaystreaksInput>, UserUncheckedUpdateWithoutDaystreaksInput>
+  }
+
+  export type PlantUpdateOneRequiredWithoutDaystreaksNestedInput = {
+    create?: XOR<PlantCreateWithoutDaystreaksInput, PlantUncheckedCreateWithoutDaystreaksInput>
+    connectOrCreate?: PlantCreateOrConnectWithoutDaystreaksInput
+    upsert?: PlantUpsertWithoutDaystreaksInput
+    connect?: PlantWhereUniqueInput
+    update?: XOR<XOR<PlantUpdateToOneWithWhereWithoutDaystreaksInput, PlantUpdateWithoutDaystreaksInput>, PlantUncheckedUpdateWithoutDaystreaksInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -7488,6 +9090,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     posts?: PostCreateNestedManyWithoutPlantInput
+    daystreaks?: DayStreakCreateNestedManyWithoutPlantInput
   }
 
   export type PlantUncheckedCreateWithoutUserInput = {
@@ -7501,6 +9104,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     posts?: PostUncheckedCreateNestedManyWithoutPlantInput
+    daystreaks?: DayStreakUncheckedCreateNestedManyWithoutPlantInput
   }
 
   export type PlantCreateOrConnectWithoutUserInput = {
@@ -7558,6 +9162,31 @@ export namespace Prisma {
 
   export type SubscriptionCreateManyUserInputEnvelope = {
     data: SubscriptionCreateManyUserInput | SubscriptionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DayStreakCreateWithoutUserInput = {
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    plant: PlantCreateNestedOneWithoutDaystreaksInput
+  }
+
+  export type DayStreakUncheckedCreateWithoutUserInput = {
+    id?: number
+    plantId: number
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DayStreakCreateOrConnectWithoutUserInput = {
+    where: DayStreakWhereUniqueInput
+    create: XOR<DayStreakCreateWithoutUserInput, DayStreakUncheckedCreateWithoutUserInput>
+  }
+
+  export type DayStreakCreateManyUserInputEnvelope = {
+    data: DayStreakCreateManyUserInput | DayStreakCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -7648,6 +9277,34 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
   }
 
+  export type DayStreakUpsertWithWhereUniqueWithoutUserInput = {
+    where: DayStreakWhereUniqueInput
+    update: XOR<DayStreakUpdateWithoutUserInput, DayStreakUncheckedUpdateWithoutUserInput>
+    create: XOR<DayStreakCreateWithoutUserInput, DayStreakUncheckedCreateWithoutUserInput>
+  }
+
+  export type DayStreakUpdateWithWhereUniqueWithoutUserInput = {
+    where: DayStreakWhereUniqueInput
+    data: XOR<DayStreakUpdateWithoutUserInput, DayStreakUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DayStreakUpdateManyWithWhereWithoutUserInput = {
+    where: DayStreakScalarWhereInput
+    data: XOR<DayStreakUpdateManyMutationInput, DayStreakUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DayStreakScalarWhereInput = {
+    AND?: DayStreakScalarWhereInput | DayStreakScalarWhereInput[]
+    OR?: DayStreakScalarWhereInput[]
+    NOT?: DayStreakScalarWhereInput | DayStreakScalarWhereInput[]
+    id?: IntFilter<"DayStreak"> | number
+    userId?: IntFilter<"DayStreak"> | number
+    plantId?: IntFilter<"DayStreak"> | number
+    streak?: IntFilter<"DayStreak"> | number
+    createdAt?: DateTimeFilter<"DayStreak"> | Date | string
+    updatedAt?: DateTimeFilter<"DayStreak"> | Date | string
+  }
+
   export type UserCreateWithoutSubscriptionsInput = {
     firstname: string
     lastname: string
@@ -7659,6 +9316,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     plants?: PlantCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -7673,6 +9331,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     plants?: PlantUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -7702,6 +9361,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plants?: PlantUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -7716,6 +9376,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plants?: PlantUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPlantsInput = {
@@ -7729,6 +9390,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     posts?: PostCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlantsInput = {
@@ -7743,6 +9405,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlantsInput = {
@@ -7775,6 +9438,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DayStreakCreateWithoutPlantInput = {
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDaystreaksInput
+  }
+
+  export type DayStreakUncheckedCreateWithoutPlantInput = {
+    id?: number
+    userId: number
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DayStreakCreateOrConnectWithoutPlantInput = {
+    where: DayStreakWhereUniqueInput
+    create: XOR<DayStreakCreateWithoutPlantInput, DayStreakUncheckedCreateWithoutPlantInput>
+  }
+
+  export type DayStreakCreateManyPlantInputEnvelope = {
+    data: DayStreakCreateManyPlantInput | DayStreakCreateManyPlantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutPlantsInput = {
     update: XOR<UserUpdateWithoutPlantsInput, UserUncheckedUpdateWithoutPlantsInput>
     create: XOR<UserCreateWithoutPlantsInput, UserUncheckedCreateWithoutPlantsInput>
@@ -7797,6 +9485,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlantsInput = {
@@ -7811,6 +9500,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithWhereUniqueWithoutPlantInput = {
@@ -7829,6 +9519,22 @@ export namespace Prisma {
     data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutPlantInput>
   }
 
+  export type DayStreakUpsertWithWhereUniqueWithoutPlantInput = {
+    where: DayStreakWhereUniqueInput
+    update: XOR<DayStreakUpdateWithoutPlantInput, DayStreakUncheckedUpdateWithoutPlantInput>
+    create: XOR<DayStreakCreateWithoutPlantInput, DayStreakUncheckedCreateWithoutPlantInput>
+  }
+
+  export type DayStreakUpdateWithWhereUniqueWithoutPlantInput = {
+    where: DayStreakWhereUniqueInput
+    data: XOR<DayStreakUpdateWithoutPlantInput, DayStreakUncheckedUpdateWithoutPlantInput>
+  }
+
+  export type DayStreakUpdateManyWithWhereWithoutPlantInput = {
+    where: DayStreakScalarWhereInput
+    data: XOR<DayStreakUpdateManyMutationInput, DayStreakUncheckedUpdateManyWithoutPlantInput>
+  }
+
   export type UserCreateWithoutPostsInput = {
     firstname: string
     lastname: string
@@ -7840,6 +9546,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     plants?: PlantCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -7854,6 +9561,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     plants?: PlantUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    daystreaks?: DayStreakUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -7871,6 +9579,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPlantsInput
+    daystreaks?: DayStreakCreateNestedManyWithoutPlantInput
   }
 
   export type PlantUncheckedCreateWithoutPostsInput = {
@@ -7884,6 +9593,7 @@ export namespace Prisma {
     last_notified_at?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    daystreaks?: DayStreakUncheckedCreateNestedManyWithoutPlantInput
   }
 
   export type PlantCreateOrConnectWithoutPostsInput = {
@@ -7913,6 +9623,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plants?: PlantUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -7927,6 +9638,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     plants?: PlantUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    daystreaks?: DayStreakUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlantUpsertWithoutPostsInput = {
@@ -7950,6 +9662,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPlantsNestedInput
+    daystreaks?: DayStreakUpdateManyWithoutPlantNestedInput
   }
 
   export type PlantUncheckedUpdateWithoutPostsInput = {
@@ -7963,6 +9676,151 @@ export namespace Prisma {
     last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    daystreaks?: DayStreakUncheckedUpdateManyWithoutPlantNestedInput
+  }
+
+  export type UserCreateWithoutDaystreaksInput = {
+    firstname: string
+    lastname: string
+    email: string
+    username: string
+    password: string
+    user_img: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    plants?: PlantCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDaystreaksInput = {
+    id?: number
+    firstname: string
+    lastname: string
+    email: string
+    username: string
+    password: string
+    user_img: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    plants?: PlantUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDaystreaksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDaystreaksInput, UserUncheckedCreateWithoutDaystreaksInput>
+  }
+
+  export type PlantCreateWithoutDaystreaksInput = {
+    plant_name: string
+    plant_nickname: string
+    time_reminder: Date | string
+    plant_img: string
+    status: $Enums.PlantStatus
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPlantsInput
+    posts?: PostCreateNestedManyWithoutPlantInput
+  }
+
+  export type PlantUncheckedCreateWithoutDaystreaksInput = {
+    id?: number
+    plant_name: string
+    plant_nickname: string
+    time_reminder: Date | string
+    plant_img: string
+    status: $Enums.PlantStatus
+    userId: number
+    last_notified_at?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    posts?: PostUncheckedCreateNestedManyWithoutPlantInput
+  }
+
+  export type PlantCreateOrConnectWithoutDaystreaksInput = {
+    where: PlantWhereUniqueInput
+    create: XOR<PlantCreateWithoutDaystreaksInput, PlantUncheckedCreateWithoutDaystreaksInput>
+  }
+
+  export type UserUpsertWithoutDaystreaksInput = {
+    update: XOR<UserUpdateWithoutDaystreaksInput, UserUncheckedUpdateWithoutDaystreaksInput>
+    create: XOR<UserCreateWithoutDaystreaksInput, UserUncheckedCreateWithoutDaystreaksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDaystreaksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDaystreaksInput, UserUncheckedUpdateWithoutDaystreaksInput>
+  }
+
+  export type UserUpdateWithoutDaystreaksInput = {
+    firstname?: StringFieldUpdateOperationsInput | string
+    lastname?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    user_img?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plants?: PlantUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDaystreaksInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    firstname?: StringFieldUpdateOperationsInput | string
+    lastname?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    user_img?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plants?: PlantUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PlantUpsertWithoutDaystreaksInput = {
+    update: XOR<PlantUpdateWithoutDaystreaksInput, PlantUncheckedUpdateWithoutDaystreaksInput>
+    create: XOR<PlantCreateWithoutDaystreaksInput, PlantUncheckedCreateWithoutDaystreaksInput>
+    where?: PlantWhereInput
+  }
+
+  export type PlantUpdateToOneWithWhereWithoutDaystreaksInput = {
+    where?: PlantWhereInput
+    data: XOR<PlantUpdateWithoutDaystreaksInput, PlantUncheckedUpdateWithoutDaystreaksInput>
+  }
+
+  export type PlantUpdateWithoutDaystreaksInput = {
+    plant_name?: StringFieldUpdateOperationsInput | string
+    plant_nickname?: StringFieldUpdateOperationsInput | string
+    time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
+    plant_img?: StringFieldUpdateOperationsInput | string
+    status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPlantsNestedInput
+    posts?: PostUpdateManyWithoutPlantNestedInput
+  }
+
+  export type PlantUncheckedUpdateWithoutDaystreaksInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    plant_name?: StringFieldUpdateOperationsInput | string
+    plant_nickname?: StringFieldUpdateOperationsInput | string
+    time_reminder?: DateTimeFieldUpdateOperationsInput | Date | string
+    plant_img?: StringFieldUpdateOperationsInput | string
+    status?: EnumPlantStatusFieldUpdateOperationsInput | $Enums.PlantStatus
+    userId?: IntFieldUpdateOperationsInput | number
+    last_notified_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostUncheckedUpdateManyWithoutPlantNestedInput
   }
 
   export type PlantCreateManyUserInput = {
@@ -7992,6 +9850,14 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type DayStreakCreateManyUserInput = {
+    id?: number
+    plantId: number
+    streak: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type PlantUpdateWithoutUserInput = {
     plant_name?: StringFieldUpdateOperationsInput | string
     plant_nickname?: StringFieldUpdateOperationsInput | string
@@ -8002,6 +9868,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUpdateManyWithoutPlantNestedInput
+    daystreaks?: DayStreakUpdateManyWithoutPlantNestedInput
   }
 
   export type PlantUncheckedUpdateWithoutUserInput = {
@@ -8015,6 +9882,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     posts?: PostUncheckedUpdateManyWithoutPlantNestedInput
+    daystreaks?: DayStreakUncheckedUpdateManyWithoutPlantNestedInput
   }
 
   export type PlantUncheckedUpdateManyWithoutUserInput = {
@@ -8072,10 +9940,41 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DayStreakUpdateWithoutUserInput = {
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    plant?: PlantUpdateOneRequiredWithoutDaystreaksNestedInput
+  }
+
+  export type DayStreakUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    plantId?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DayStreakUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    plantId?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PostCreateManyPlantInput = {
     id?: number
     userId: number
     status: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DayStreakCreateManyPlantInput = {
+    id?: number
+    userId: number
+    streak: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8099,6 +9998,29 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DayStreakUpdateWithoutPlantInput = {
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDaystreaksNestedInput
+  }
+
+  export type DayStreakUncheckedUpdateWithoutPlantInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DayStreakUncheckedUpdateManyWithoutPlantInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    streak?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

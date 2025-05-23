@@ -33,6 +33,7 @@ model User {
   plants    Plant[] 
   posts      Post[]
   subscriptions Subscription[]
+  daystreaks DayStreak[]
 }
 
 model Subscription {
@@ -69,6 +70,20 @@ model Post {
   userId  Int
   plantId Int
   status  Boolean
+  createdAt        DateTime      @default(now()) // <-- New: Created timestamp
+  updatedAt        DateTime      @updatedAt      // <-- New: Auto-updated on change
+
+
+  user    User   @relation(fields: [userId], references: [id])
+  plant   Plant  @relation(fields: [plantId], references: [id])
+
+}
+
+model DayStreak {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  plantId Int
+  streak Int
   createdAt        DateTime      @default(now()) // <-- New: Created timestamp
   updatedAt        DateTime      @updatedAt      // <-- New: Auto-updated on change
 

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState("/");
-  
+
   useEffect(() => {
     const path = window.location.pathname;
     if (path.includes("community")) {
@@ -12,7 +12,7 @@ export default function NavBar() {
       setCurrentPage("/");
     }
   }, []);
-  
+
   const navigateTo = (page) => {
     setCurrentPage(page);
     if (page === "/") {
@@ -21,11 +21,11 @@ export default function NavBar() {
       window.location.href = `/${page}`;
     }
   };
-  
+
   const handleLogout = () => {
     window.location.href = "/login";
   };
-  
+
   return (
     <>
       {/* Desktop Sidebar(fix) */}
@@ -53,8 +53,7 @@ export default function NavBar() {
           </div>
           <div className="mt-auto mb-4 flex items-center text-[#53675E] font-medium">
             <div className="flex items-center w-full">
-              <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200">
-              </div>
+              <div className="relative w-12 h-12 rounded-full border border-[#1E5D1E] overflow-hidden mr-3 bg-gray-200"></div>
               <div>
                 <div className="text-[18px]">Username</div>
                 <button
@@ -68,13 +67,17 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile Top Navigation */}
       <div className="block md:hidden w-full px-5 py-6 bg-white">
         <div className="flex justify-between items-start p-1">
           <div>
-            <h1 className="text-[30px] font-bold text-[#53675E]">Plant2gether</h1>
-            <p className="text-[10px] font-medium text-[#C6C6C6]">Let's give them a drink !</p>
+            <h1 className="text-[30px] font-bold text-[#53675E]">
+              Plant2gether
+            </h1>
+            <p className="text-[10px] font-medium text-[#C6C6C6]">
+              Let's give them a drink !
+            </p>
             <div className="flex mt-3 text-[18px] font-bold">
               <div
                 className={`mr-6 ${currentPage === "/" ? "text-[#53675E] font-bold" : "text-[#88AE9D] font-bold"}`}

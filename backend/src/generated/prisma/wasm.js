@@ -162,6 +162,15 @@ exports.Prisma.PostScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DayStreakScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  plantId: 'plantId',
+  streak: 'streak',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -195,7 +204,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Subscription: 'Subscription',
   Plant: 'Plant',
-  Post: 'Post'
+  Post: 'Post',
+  DayStreak: 'DayStreak'
 };
 
 /**
