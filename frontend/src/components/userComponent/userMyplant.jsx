@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function UserMyplant() {
   const plants = [
@@ -65,9 +65,12 @@ export default function UserMyplant() {
 
       {/* + new plants (desktop) */}
       <div className="hidden lg:flex items-center">
+      
+      <Link to="/add-plant">
         <button className="bg-[#1E5D1E] text-white px-4 py-1.5 rounded-[24px] flex items-center">
           <span className="font-bold text-[20px] tracking-wide">+ new plants</span>
         </button>
+      </Link>
       </div>
       </div>
 

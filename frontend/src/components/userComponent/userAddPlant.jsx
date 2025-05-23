@@ -115,17 +115,17 @@ export default function UserAddPlant() {
       {/* Main Content */}
       <div className="flex-1 p-6">
         {/* Breadcrumb */}
-        <div className="mb-6 flex items-center text-sm text-gray-500">
-          <a href="#" className="hover:text-green-600">
-            Home
+        <div className="mb-6 flex items-center text-lg text-[#88AE9D]">
+          <a href="/" className="hover:text-[#1E5D1E] font-bold">
+            My Plants
           </a>
           <ChevronRight size={16} className="mx-1" />
-          <span className="text-gray-700">My Plants</span>
+          <span className="text-[#53675E] font-bold">Add Plant</span>
         </div>
 
         {/* Content Area */}
-        <div className="bg-gray-100 rounded-lg p-6">
-          <h2 className="text-2xl font-semibold mb-6">Add New Plant</h2>
+        <div className="bg-[#F4F3F3] rounded-[15px] p-6">
+          <h2 className="text-[20px] text-[#53675E] font-semibold mb-6">Add New Plant</h2>
 
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -155,7 +155,7 @@ export default function UserAddPlant() {
                 />
                 <label
                   htmlFor="plant-image"
-                  className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-center py-2 text-sm cursor-pointer"
+                  className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-center py-2 font-semibold cursor-pointer"
                 >
                   {imagePreview ? "Change Image" : "Upload Image"}
                 </label>
@@ -167,7 +167,7 @@ export default function UserAddPlant() {
                   <input
                     type="text"
                     placeholder="Plant's Nickname"
-                    className="w-full p-3 rounded border border-gray-200"
+                    className="w-full rounded-[4px] p-3 font-light text-[14px] bg-[#FFFFFF]"
                     value={plantNickname}
                     onChange={(e) => setPlantNickname(e.target.value)}
                   />
@@ -176,7 +176,7 @@ export default function UserAddPlant() {
                   <input
                     type="text"
                     placeholder="Plant name"
-                    className="w-full p-3 rounded border border-gray-200"
+                    className="w-full rounded-[4px] p-3 font-light  text-[14px] bg-[#FFFFFF]"
                     value={plantName}
                     onChange={(e) => setPlantName(e.target.value)}
                   />
@@ -184,7 +184,7 @@ export default function UserAddPlant() {
                 <div>
                   <button
                     type="button"
-                    className="flex items-center w-full p-3 rounded border border-gray-200 text-left text-gray-500"
+                    className="flex items-center w-full p-3 rounded-[4px] text-[14px] font-light text-left  bg-white"
                     onClick={() => setShowReminder(!showReminder)}
                   >
                     <Clock size={18} className="mr-2" />
@@ -195,23 +195,23 @@ export default function UserAddPlant() {
                     />
                   </button>
                   {showReminder && (
-                    <div className="p-3 mt-2 border border-gray-200 rounded">
-                      <label className="block text-sm text-gray-700 mb-1">
+                    <div className="p-3 mt-2  bg-white rounded-[4px]">
+                      <label className="block font-light text-[14px] text-gray-700 mb-1">
                         Set reminder time:
                       </label>
                       <input
                         type="time"
-                        className="w-full p-2 border border-gray-200 rounded"
+                        className="w-full p-2 border border-[#53675E] rounded-[4px] font-light text-[14px]"
                         value={timeReminder}
                         onChange={(e) => setTimeReminder(e.target.value)}
                       />
                     </div>
                   )}
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end pt-3">
                   <button
                     type="submit"
-                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded disabled:bg-green-300"
+                    className="bg-[#5AA67E] hover:bg-green-600 text-[20px] font-regular text-white px-6 py-2 rounded-[50px] disabled:bg-[#1E5D1E]"
                     disabled={loading}
                   >
                     {loading ? "Adding..." : "Add Plant"}

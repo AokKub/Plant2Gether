@@ -5,6 +5,7 @@ import MyPlantPage from "./pages/userPages/MyPlantPage";
 import UserLoginPage from "./pages/userPages/userLoginPage";
 import UserSignupPage from "./pages/userPages/userSignUpPage";
 import { UserAddPlantPage } from "./pages/userPages/userAddPlantPage";
+import { UserEditAccountPage } from "./pages/userPages/userEditAccPage";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/add-plant",
     element: <UserAddPlantPage />,
+  },
+  {
+    path: "/edit-account",
+    element: <UserEditAccountPage/>,
   },
 ]);
 
