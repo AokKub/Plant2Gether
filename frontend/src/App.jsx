@@ -6,6 +6,7 @@ import UserLoginPage from "./pages/userPages/userLoginPage";
 import UserSignupPage from "./pages/userPages/userSignUpPage";
 import { UserAddPlantPage } from "./pages/userPages/userAddPlantPage";
 import { UserEditAccountPage } from "./pages/userPages/userEditAccPage";
+import { UserCommunityFeedPage } from "./pages/userPages/userCommunityFeed";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/edit-account",
     element: <UserEditAccountPage/>,
+  },
+  {
+    path: "/community",
+    element: <UserCommunityFeedPage/>,
   },
 ]);
 

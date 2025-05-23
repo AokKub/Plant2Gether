@@ -27,7 +27,7 @@ export default function UserMyplant() {
     <div className="pr-5 pb-5 pl-5 md:pt-13 lg:pt-13 flex-1 bg-white">
       {/* Breadcrumb */}
       <div className="items-center text-lg text-[#53675E] mb-5 hidden md:flex">
-        <span className="text-[20px] font-bold">My Plants</span>
+        <span className="text-[18px] font-bold">My Plants</span>
       </div>
       
         {/* main wrapper */}
@@ -102,17 +102,17 @@ export default function UserMyplant() {
                         <p className="font-regular mt-1 text-[12px] text-[#53675E]">{plant.species}</p>
                         <p className="text-sm text-[#53675E]">{plant.days} days</p>
                       </div>
-                      <button className="text-[#9D9191]">
+                      <a href={`/view-detail/${plant.id}`} className="text-[#9D9191] cursor-pointer inline-flex items-center">
                         <svg 
                           className="w-4 h-4"
                           xmlns="http://www.w3.org/2000/svg" 
                           fill="none" 
                           viewBox="0 0 24 24" 
                           stroke="currentColor"
-                        >
+                          >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                         </svg>
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default function UserMyplant() {
                     <p className="text-sm text-[#53675E]">{plant.days} days</p>
                   </div>
                   
-                  <button className="text-[#9D9191]">
+                  <a href={`/view-detail/${plant.id}`} className="text-[#9D9191] cursor-pointer inline-flex items-center">
                     <svg 
                       className="w-4 h-4"
                       xmlns="http://www.w3.org/2000/svg" 
@@ -174,7 +174,7 @@ export default function UserMyplant() {
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                     </svg>
-                  </button>
+                  </a>
                 </div>
                 
                 {/* remaining time */}
