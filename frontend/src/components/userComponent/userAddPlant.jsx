@@ -201,7 +201,7 @@ export default function UserAddPlant() {
         {/* Enhanced Breadcrumb */}
         <div className="mb-8 flex items-center">
           <div className="flex items-center text-sm text-gray-500 bg-white px-4 py-2 rounded-full shadow-sm">
-            <a href="#" className="hover:text-green-600 transition-colors">
+            <a href="/" className="hover:text-green-600 transition-colors">
               Home
             </a>
             <ChevronRight size={14} className="mx-2 text-gray-400" />
@@ -245,22 +245,20 @@ export default function UserAddPlant() {
                   </h3>
 
                   <div
-                    className={`relative group transition-all duration-300 ${
-                      dragOver ? "scale-105" : "hover:scale-102"
-                    }`}
+                    className={`relative group transition-all duration-300 ${dragOver ? "scale-105" : "hover:scale-102"
+                      }`}
                     onDragEnter={handleDragIn}
                     onDragLeave={handleDragOut}
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                   >
                     <div
-                      className={`w-full h-80 rounded-2xl border-2 border-dashed transition-all duration-300 overflow-hidden ${
-                        dragOver
+                      className={`w-full h-80 rounded-2xl border-2 border-dashed transition-all duration-300 overflow-hidden ${dragOver
                           ? "border-green-400 bg-green-50 scale-105"
                           : imagePreview
                             ? "border-green-300 bg-green-50"
                             : "border-gray-300 bg-gray-50 hover:border-green-400 hover:bg-green-50"
-                      } ${getFieldError("image") ? "border-red-400 bg-red-50" : ""}`}
+                        } ${getFieldError("image") ? "border-red-400 bg-red-50" : ""}`}
                     >
                       {imagePreview ? (
                         <div className="relative w-full h-full group">
@@ -278,11 +276,10 @@ export default function UserAddPlant() {
                       ) : (
                         <div className="flex flex-col items-center justify-center h-full text-gray-500">
                           <div
-                            className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all duration-300 ${
-                              dragOver
+                            className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all duration-300 ${dragOver
                                 ? "bg-green-200 text-green-600 scale-110"
                                 : "bg-gray-200 group-hover:bg-green-200 group-hover:text-green-600 group-hover:scale-110"
-                            }`}
+                              }`}
                           >
                             <Cloud size={32} />
                           </div>
@@ -329,11 +326,10 @@ export default function UserAddPlant() {
                       <input
                         type="text"
                         placeholder="e.g., Sunny, Green Buddy, My Little Friend..."
-                        className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500/20 ${
-                          focusedField === "nickname"
+                        className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500/20 ${focusedField === "nickname"
                             ? "border-green-400 shadow-lg shadow-green-500/10 bg-green-50/50"
                             : "border-gray-300 hover:border-green-300 bg-white"
-                        } ${getFieldError("plantNickname") ? "border-red-400" : ""}`}
+                          } ${getFieldError("plantNickname") ? "border-red-400" : ""}`}
                         value={plantNickname}
                         onChange={(e) => setPlantNickname(e.target.value)}
                         onFocus={() => setFocusedField("nickname")}
@@ -362,11 +358,10 @@ export default function UserAddPlant() {
                       <input
                         type="text"
                         placeholder="e.g., Monstera Deliciosa, Snake Plant, Pothos..."
-                        className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500/20 ${
-                          focusedField === "species"
+                        className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500/20 ${focusedField === "species"
                             ? "border-green-400 shadow-lg shadow-green-500/10 bg-green-50/50"
                             : "border-gray-300 hover:border-green-300 bg-white"
-                        } ${getFieldError("plantName") ? "border-red-400" : ""}`}
+                          } ${getFieldError("plantName") ? "border-red-400" : ""}`}
                         value={plantName}
                         onChange={(e) => setPlantName(e.target.value)}
                         onFocus={() => setFocusedField("species")}
@@ -393,11 +388,10 @@ export default function UserAddPlant() {
                     </label>
                     <button
                       type="button"
-                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 hover:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-500/20 ${
-                        showReminder
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all duration-300 hover:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-500/20 ${showReminder
                           ? "border-green-400 bg-green-50 shadow-md"
                           : "border-gray-300 bg-white hover:bg-green-50/50"
-                      } ${getFieldError("timeReminder") ? "border-red-400" : ""}`}
+                        } ${getFieldError("timeReminder") ? "border-red-400" : ""}`}
                       onClick={() => setShowReminder(!showReminder)}
                     >
                       <div className="flex items-center text-gray-700">
@@ -412,9 +406,8 @@ export default function UserAddPlant() {
                       </div>
                       <ChevronRight
                         size={18}
-                        className={`text-gray-400 transition-transform duration-300 ${
-                          showReminder ? "rotate-90" : ""
-                        }`}
+                        className={`text-gray-400 transition-transform duration-300 ${showReminder ? "rotate-90" : ""
+                          }`}
                       />
                     </button>
 
@@ -448,11 +441,10 @@ export default function UserAddPlant() {
                   type="submit"
                   disabled={loading}
                   onClick={handleSubmit}
-                  className={`px-8 py-4 rounded-2xl font-semibold text-white text-lg shadow-lg transition-all duration-300 ${
-                    loading
+                  className={`px-8 py-4 rounded-2xl font-semibold text-white text-lg shadow-lg transition-all duration-300 ${loading
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl hover:scale-105 active:scale-95"
-                  }`}
+                    }`}
                 >
                   {loading ? (
                     <div className="flex items-center">
