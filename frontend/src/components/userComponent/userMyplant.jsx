@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { debounce } from "lodash";
 import { useNavigate } from "react-router-dom";
 import { Droplets } from "lucide-react";
+
 export default function UserMyplant() {
   const [plants, setPlants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,8 +13,9 @@ export default function UserMyplant() {
   const [sortBy, setSortBy] = useState("newest");
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
-  const [viewMode, setViewMode] = useState("grid"); // grid or list
+  const [viewMode, setViewMode] = useState("grid");
   const navigate = useNavigate();
+
   useEffect(() => {
     fetchPlants();
   }, []);
@@ -24,7 +26,9 @@ export default function UserMyplant() {
       const token = localStorage.getItem("token");
       setLoading(true);
       setError(null);
-      const response = await fetch(
+
+      // Fetch plants
+      const plantsResponse = await fetch(
         `http://localhost:3000/api/get-plants/${userId}`,
         {
           method: "GET",
@@ -33,12 +37,43 @@ export default function UserMyplant() {
           },
         },
       );
-      const data = await response.json();
 
-      if (data.status) {
-        setPlants(data.getPlants);
+      const plantsData = await plantsResponse.json();
+
+      if (plantsData.status) {
+        // Fetch streaks for all plants
+        const plantsWithStreaks = await Promise.all(
+          plantsData.getPlants.map(async (plant) => {
+            try {
+              const streakResponse = await fetch(
+                `http://localhost:3000/api/streak/${plant.id}`,
+                {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                },
+              );
+              const streakData = await streakResponse.json();
+              console.log(streakData.streak);
+              return {
+                ...plant,
+                streak:
+                  streakData.streak != null ? streakData.streak.streak : 0,
+              };
+            } catch (err) {
+              console.error(
+                `Error fetching streak for plant ${plant.id}:`,
+                err,
+              );
+              return { ...plant, streak: 0 };
+            }
+          }),
+        );
+
+        setPlants(plantsWithStreaks);
       } else {
-        setError(data.message || "Failed to fetch plants");
+        setError(plantsData.message || "Failed to fetch plants");
       }
     } catch (err) {
       setError("Failed to fetch plants. Please try again later.");
@@ -48,7 +83,6 @@ export default function UserMyplant() {
     }
   };
 
-  // Enhanced filter and sort function
   const filterAndSortPlants = useCallback(
     debounce((search, plants, status, sort) => {
       let filtered = plants.filter((plant) => {
@@ -61,7 +95,6 @@ export default function UserMyplant() {
         return matchesSearch && matchesStatus;
       });
 
-      // Sort plants
       filtered.sort((a, b) => {
         switch (sort) {
           case "newest":
@@ -83,6 +116,8 @@ export default function UserMyplant() {
             if (!aReminder) return 1;
             if (!bReminder) return -1;
             return aReminder - bReminder;
+          case "streak":
+            return (b.streak || 0) - (a.streak || 0);
           default:
             return 0;
         }
@@ -104,31 +139,23 @@ export default function UserMyplant() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
-  // Updated calculateTimeLeft function
+
   const calculateTimeLeft = (timeReminder) => {
     if (!timeReminder) return "No reminder";
 
     try {
       const reminderDate = new Date(timeReminder);
       const now = new Date();
-
-      // Extract hours and minutes from the stored reminder (ignoring the 1970 date part)
-      const reminderHours = reminderDate.getUTCHours(); // Use UTC since you stored it in UTC
+      const reminderHours = reminderDate.getUTCHours();
       const reminderMinutes = reminderDate.getUTCMinutes();
-
-      // Get current local time
       const currentHours = now.getHours();
       const currentMinutes = now.getMinutes();
-
-      // Convert to total minutes for easier comparison
       const reminderTotalMinutes = reminderHours * 60 + reminderMinutes;
       const currentTotalMinutes = currentHours * 60 + currentMinutes;
-
       let diffMinutes = reminderTotalMinutes - currentTotalMinutes;
 
-      // If the reminder time has passed today, it's for tomorrow
       if (diffMinutes < 0) {
-        diffMinutes += 24 * 60; // Add 24 hours worth of minutes
+        diffMinutes += 24 * 60;
       }
 
       if (diffMinutes === 0) {
@@ -149,41 +176,34 @@ export default function UserMyplant() {
     }
   };
 
-  // Updated getUrgencyColor function
   const getUrgencyColor = (timeReminder) => {
     if (!timeReminder) return "text-gray-400";
 
     try {
       const reminderDate = new Date(timeReminder);
       const now = new Date();
-
-      // Extract hours and minutes from the stored reminder (using UTC)
       const reminderHours = reminderDate.getUTCHours();
       const reminderMinutes = reminderDate.getUTCMinutes();
-
-      // Get current local time
       const currentHours = now.getHours();
       const currentMinutes = now.getMinutes();
-
       const reminderTotalMinutes = reminderHours * 60 + reminderMinutes;
       const currentTotalMinutes = currentHours * 60 + currentMinutes;
-
       let diffMinutes = reminderTotalMinutes - currentTotalMinutes;
 
-      // If negative, add 24 hours (next day)
       if (diffMinutes < 0) {
         diffMinutes += 24 * 60;
       }
 
-      if (diffMinutes === 0) return "text-green-500 font-semibold"; // It's time
-      if (diffMinutes <= 30) return "text-red-500 font-semibold"; // Less than 30 minutes
-      if (diffMinutes <= 120) return "text-orange-500 font-semibold"; // Less than 2 hours
-      if (diffMinutes <= 360) return "text-yellow-600"; // Less than 6 hours
-      return "text-[#7C968A]"; // Normal
+      if (diffMinutes === 0) return "text-green-500 font-semibold";
+      if (diffMinutes <= 30) return "text-red-500 font-semibold";
+      if (diffMinutes <= 120) return "text-orange-500 font-semibold";
+      if (diffMinutes <= 360) return "text-yellow-600";
+      return "text-[#7C968A]";
     } catch (error) {
-      return "text-gray-400";
+      return "text-gray";
     }
   };
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -205,7 +225,7 @@ export default function UserMyplant() {
   };
 
   const handleAddPlant = () => {
-    console.log("Navigate to add plant page");
+    navigate("/add-plant");
   };
 
   const handlePlantClick = (plantId) => {
@@ -214,8 +234,6 @@ export default function UserMyplant() {
 
   const handleQuickWater = async (plantId, e) => {
     e.stopPropagation();
-    console.log("Quick water plant:", plantId);
-    // Update last watered time
     try {
       const userId = JSON.parse(localStorage.getItem("user")).id;
       const token = localStorage.getItem("token");
@@ -232,20 +250,52 @@ export default function UserMyplant() {
       });
       if (!response.ok) throw new Error("Failed to log watering");
       const updatedPlant = await response.json();
-      console.log(updatedPlant);
+
+      // Fetch updated streak after watering
+      const streakResponse = await fetch(
+        `http://localhost:3000/api/streak/${plantId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const streakData = await streakResponse.json();
+      console.log(streakData);
       navigate("/community");
-      setPlants((prev) => ({
-        ...prev,
-        last_notified_at: new Date().toISOString(),
-      }));
+      setPlants((prevPlants) =>
+        prevPlants.map((plant) =>
+          plant.id === plantId
+            ? {
+                ...plant,
+                last_notified_at: new Date().toISOString(),
+                streak: streakData.status
+                  ? streakData.streak.streak
+                  : plant.streak,
+              }
+            : plant,
+        ),
+      );
     } catch (err) {
       setError(err.message);
-      // Update local state for demo purposes
-      setPlants((prev) => ({
-        ...prev,
-        last_notified_at: new Date().toISOString(),
-      }));
+      setPlants((prevPlants) =>
+        prevPlants.map((plant) =>
+          plant.id === plantId
+            ? { ...plant, last_notified_at: new Date().toISOString() }
+            : plant,
+        ),
+      );
     }
+  };
+
+  // Determine streak badge color based on streak length
+  const getStreakBadgeColor = (streak) => {
+    if (streak === 0) return "bg-gray-200 text-gray-600";
+    if (streak <= 3) return "bg-green-100 text-green-800";
+    if (streak <= 7) return "bg-blue-100 text-blue-800";
+    if (streak <= 14) return "bg-purple-100 text-purple-800";
+    return "bg-yellow-100 text-yellow-800"; // Gold for streaks > 14
   };
 
   if (loading) {
@@ -299,7 +349,6 @@ export default function UserMyplant() {
 
   return (
     <div className="pr-5 pb-5 pl-5 md:pt-13 lg:pt-13 flex-1 bg-white min-h-screen">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="items-center text-lg text-[#53675E] hidden md:flex">
           <span className="text-[24px] font-bold">My Plants</span>
@@ -317,10 +366,8 @@ export default function UserMyplant() {
         </div>
       </div>
 
-      {/* Search and Controls */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
         <div className="flex w-full lg:flex-1 gap-2">
-          {/* Search Input */}
           <div className="relative flex-1">
             <input
               type="text"
@@ -365,14 +412,14 @@ export default function UserMyplant() {
             )}
           </div>
 
-          {/* Filter Dropdown */}
           <div className="relative">
             <button
               onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-              className={`p-3 rounded-[15px] flex-shrink-0 min-w-[48px] transition-all ${showFilterDropdown || statusFilter !== "ALL"
+              className={`p-3 rounded-[15px] flex-shrink-0 min-w-[48px] transition-all ${
+                showFilterDropdown || statusFilter !== "ALL"
                   ? "bg-[#1E5D1E] text-white"
                   : "bg-[#F4F3F3] text-[#9D9191] hover:bg-[#E8E7E7]"
-                }`}
+              }`}
             >
               <svg
                 className="w-5 h-5"
@@ -403,10 +450,11 @@ export default function UserMyplant() {
                     <button
                       key={status}
                       onClick={() => handleStatusFilter(status)}
-                      className={`block w-full text-left px-3 py-2 text-sm rounded hover:bg-[#F4F3F3] transition-colors ${statusFilter === status
+                      className={`block w-full text-left px-3 py-2 text-sm rounded hover:bg-[#F4F3F3] transition-colors ${
+                        statusFilter === status
                           ? "bg-[#F4F3F3] font-semibold"
                           : ""
-                        }`}
+                      }`}
                     >
                       {status === "ALL"
                         ? "All Plants"
@@ -418,14 +466,14 @@ export default function UserMyplant() {
             )}
           </div>
 
-          {/* Sort Dropdown */}
           <div className="relative">
             <button
               onClick={() => setShowSortDropdown(!showSortDropdown)}
-              className={`p-3 rounded-[15px] flex-shrink-0 min-w-[48px] transition-all ${showSortDropdown
+              className={`p-3 rounded-[15px] flex-shrink-0 min-w-[48px] transition-all ${
+                showSortDropdown
                   ? "bg-[#1E5D1E] text-white"
                   : "bg-[#F4F3F3] text-[#9D9191] hover:bg-[#E8E7E7]"
-                }`}
+              }`}
             >
               <svg
                 className="w-5 h-5"
@@ -470,14 +518,16 @@ export default function UserMyplant() {
                     { value: "oldest", label: "Oldest First" },
                     { value: "name", label: "Name A-Z" },
                     { value: "reminder", label: "Next Reminder" },
+                    { value: "streak", label: "Highest Streak" },
                   ].map((option) => (
                     <button
                       key={option.value}
                       onClick={() => handleSort(option.value)}
-                      className={`block w-full text-left px-3 py-2 text-sm rounded hover:bg-[#F4F3F3] transition-colors ${sortBy === option.value
+                      className={`block w-full text-left px-3 py-2 text-sm rounded hover:bg-[#F4F3F3] transition-colors ${
+                        sortBy === option.value
                           ? "bg-[#F4F3F3] font-semibold"
                           : ""
-                        }`}
+                      }`}
                     >
                       {option.label}
                     </button>
@@ -487,14 +537,14 @@ export default function UserMyplant() {
             )}
           </div>
 
-          {/* View Mode Toggle */}
           <div className="hidden lg:flex bg-[#F4F3F3] rounded-[15px] p-1">
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2 rounded-[12px] transition-all ${viewMode === "grid"
+              className={`p-2 rounded-[12px] transition-all ${
+                viewMode === "grid"
                   ? "bg-white shadow-sm"
                   : "hover:bg-[#E8E7E7]"
-                }`}
+              }`}
             >
               <svg
                 className="w-4 h-4"
@@ -512,10 +562,11 @@ export default function UserMyplant() {
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2 rounded-[12px] transition-all ${viewMode === "list"
+              className={`p-2 rounded-[12px] transition-all ${
+                viewMode === "list"
                   ? "bg-white shadow-sm"
                   : "hover:bg-[#E8E7E7]"
-                }`}
+              }`}
             >
               <svg
                 className="w-4 h-4"
@@ -534,7 +585,6 @@ export default function UserMyplant() {
           </div>
         </div>
 
-        {/* Clear Filters & Add Plant */}
         <div className="flex items-center gap-3">
           {activeFiltersCount > 0 && (
             <button
@@ -569,7 +619,6 @@ export default function UserMyplant() {
         </div>
       </div>
 
-      {/* Empty State */}
       {filteredPlants.length === 0 && !loading && (
         <div className="text-center py-16">
           <div className="mb-6">
@@ -608,13 +657,13 @@ export default function UserMyplant() {
         </div>
       )}
 
-      {/* Plants Grid/List */}
       {filteredPlants.length > 0 && (
         <div
-          className={`grid gap-6 ${viewMode === "grid"
+          className={`grid gap-6 ${
+            viewMode === "grid"
               ? "grid-cols-1 md:grid-cols-1 lg:grid-cols-2"
               : "grid-cols-1"
-            }`}
+          }`}
         >
           {filteredPlants.map((plant) => (
             <div
@@ -625,7 +674,6 @@ export default function UserMyplant() {
               <div
                 className={`${viewMode === "list" ? "flex" : "block md:flex"} h-auto md:h-52`}
               >
-                {/* Image Section */}
                 <div
                   className={`${viewMode === "list" ? "w-52" : "w-full md:w-52"} flex items-center justify-center p-4`}
                 >
@@ -639,7 +687,6 @@ export default function UserMyplant() {
                           "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400";
                       }}
                     />
-                    {/* Quick Water Button */}
                     <button
                       onClick={(e) => handleQuickWater(plant.id, e)}
                       className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform hover:scale-110"
@@ -650,7 +697,6 @@ export default function UserMyplant() {
                   </div>
                 </div>
 
-                {/* Content Section */}
                 <div className="flex-1 p-4 relative">
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1">
@@ -659,10 +705,11 @@ export default function UserMyplant() {
                           {plant.plant_nickname || "Unnamed"}
                         </h3>
                         <span
-                          className={`ml-3 px-3 py-1 font-bold text-white text-xs rounded-full ${plant.status === "ALIVE"
+                          className={`ml-3 px-3 py-1 font-bold text-white text-xs rounded-full ${
+                            plant.status === "ALIVE"
                               ? "bg-[#5AA67E]"
                               : "bg-red-500"
-                            }`}
+                          }`}
                         >
                           {plant.status}
                         </span>
@@ -677,12 +724,32 @@ export default function UserMyplant() {
                         {plant.care_level && (
                           <span>Care: {plant.care_level}</span>
                         )}
+                        <span
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold transition-transform duration-200 hover:scale-105 ${getStreakBadgeColor(
+                            plant.streak,
+                          )}`}
+                        >
+                          <svg
+                            className="w-4 h-4 mr-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M13 10V3L4 14h7v7l9-11h-7z"
+                            />
+                          </svg>
+                          Streak: {plant.streak || 0}{" "}
+                          {plant.streak === 1 ? "day" : "days"}
+                        </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Bottom Info */}
-                  <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                  <div className="absolute bottom-1 md:bottom-4 left-4 right-4 flex justify-between items-center">
                     <div
                       className={`text-sm ${getUrgencyColor(plant.time_reminder)}`}
                     >
@@ -715,7 +782,6 @@ export default function UserMyplant() {
         </div>
       )}
 
-      {/* Click outside handlers */}
       {(showFilterDropdown || showSortDropdown) && (
         <div
           className="fixed inset-0 z-10"
