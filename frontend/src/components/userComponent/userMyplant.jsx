@@ -14,6 +14,11 @@ export default function UserMyplant() {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [viewMode, setViewMode] = useState("grid");
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    plantId: null,
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -263,7 +268,18 @@ export default function UserMyplant() {
       );
       const streakData = await streakResponse.json();
       console.log(streakData);
-      navigate("/community");
+
+      // Show toast notification
+      const plant = plants.find((p) => p.id === plantId);
+      setToast({
+        show: true,
+        message: `Successfully watered ${plant.plant_nickname || plant.plant_name || "your plant"}!`,
+        plantId,
+      });
+      setTimeout(() => {
+        setToast({ show: false, message: "", plantId: null });
+      }, 3000);
+
       setPlants((prevPlants) =>
         prevPlants.map((plant) =>
           plant.id === plantId
@@ -669,13 +685,13 @@ export default function UserMyplant() {
             <div
               key={plant.id}
               onClick={() => handlePlantClick(plant.id)}
-              className="bg-[#F4F3F3] rounded-[20px] shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-[1.02] group"
+              className="bg-[#F4F3F3] rounded-[20px] shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-[1.02] group relative"
             >
               <div
                 className={`${viewMode === "list" ? "flex" : "block md:flex"} h-auto md:h-52`}
               >
                 <div
-                  className={`${viewMode === "list" ? "w-52" : "w-full md:w-52"} flex items-center justify-center p-4`}
+                  className={`${viewMode === "list" ? "w-52" : "w-full md:w-52"} flex items-center justify-center p-4 relative`}
                 >
                   <div className="w-40 h-40 relative">
                     <img
@@ -695,6 +711,28 @@ export default function UserMyplant() {
                       <Droplets />
                     </button>
                   </div>
+                  {toast.show && toast.plantId === plant.id && (
+                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-[#1E5D1E] text-white px-4 py-2 rounded-full shadow-lg animate-fade-in-out z-30">
+                      <div className="flex items-center">
+                        <svg
+                          className="w-5 h-5 mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        <span className="text-sm font-semibold">
+                          {toast.message}
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex-1 p-4 relative">
