@@ -26,7 +26,7 @@ export default function UserCommunityFeed() {
     return Math.max(0, diffDays);
   }
 
-  // Format date for display (e.g., "5/5/2025")
+  // Format date for display
   function formatDate(dateString) {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return "Unknown";
@@ -47,11 +47,45 @@ export default function UserCommunityFeed() {
         });
         if (!response.ok) throw new Error("Failed to fetch posts");
         const data = await response.json();
-        setPosts(data.posts || []);
-        setFilteredPosts(data.posts || []);
+
+        // Fetch streaks for all plants in posts
+        const postsWithStreaks = await Promise.all(
+          data.posts.map(async (post) => {
+            try {
+              console.log(post);
+              const streakResponse = await fetch(
+                `http://localhost:3000/api/streak/${post.plantId}`,
+                {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                },
+              );
+
+              const streakData = await streakResponse.json();
+              return {
+                ...post,
+                plant: {
+                  ...post.plant,
+                  streak: streakData.status ? streakData.streak.streak : 0,
+                },
+              };
+            } catch (err) {
+              console.error(
+                `Error fetching streak for plant ${post.plant.id}:`,
+                err,
+              );
+              return { ...post, plant: { ...post.plant, streak: 0 } };
+            }
+          }),
+        );
+
+        setPosts(postsWithStreaks);
+        setFilteredPosts(postsWithStreaks);
       } catch (err) {
         setError(err.message);
-        // Fallback mock data for demo purposes
+        // Fallback mock data with streak
         const mockPosts = [
           {
             id: 1,
@@ -61,10 +95,12 @@ export default function UserCommunityFeed() {
               user_img: "/",
             },
             plant: {
+              id: 1,
               plant_name: "Dieffenbachia",
               plant_nickname: "Keaw Kachee",
               plant_img:
                 "https://cdn11.bigcommerce.com/s-wzfpfq4l/images/stencil/1280x1280/products/908/1016/green_plant__56554.1548787500.jpg?c=2",
+              streak: 5,
             },
             status: true,
             createdAt: "2025-05-20T00:00:00Z",
@@ -77,10 +113,12 @@ export default function UserCommunityFeed() {
               user_img: "/",
             },
             plant: {
+              id: 2,
               plant_name: "Dieffenbachia",
               plant_nickname: "Keaw Kachee",
               plant_img:
                 "https://cdn11.bigcommerce.com/s-wzfpfq4l/images/stencil/1280x1280/products/908/1016/green_plant__56554.1548787500.jpg?c=2",
+              streak: 3,
             },
             status: true,
             createdAt: "2025-05-20T00:00:00Z",
@@ -117,6 +155,15 @@ export default function UserCommunityFeed() {
   // Handle search input change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  // Determine streak badge color based on streak length
+  const getStreakBadgeColor = (streak) => {
+    if (streak === 0) return "bg-gray-200 text-gray-600";
+    if (streak <= 3) return "bg-green-100 text-green-800";
+    if (streak <= 7) return "bg-blue-100 text-blue-800";
+    if (streak <= 14) return "bg-purple-100 text-purple-800";
+    return "bg-yellow-100 text-yellow-800"; // Gold for streaks > 14
   };
 
   if (loading) {
@@ -252,17 +299,40 @@ export default function UserCommunityFeed() {
                     </div>
                   </div>
 
-                  {/* Days mobile */}
-                  <div className="md:hidden flex items-center text-[#53675E] text-[14px] font-light">
-                    <svg
-                      className="w-4 h-4 text-blue-300 mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
+                  {/* Days and streak mobile */}
+                  <div className="md:hidden flex items-center text-[#53675E] text-[14px] font-light space-x-4">
+                    <div className="flex items-center">
+                      <svg
+                        className="w-4 h-4 text-blue-300 mr-1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+                      </svg>
+                      <span>{calculateDaysAgo(post.createdAt)} days</span>
+                    </div>
+                    <span
+                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold transition-transform duration-200 hover:scale-105 ${getStreakBadgeColor(
+                        post.plant.streak,
+                      )}`}
                     >
-                      <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
-                    </svg>
-                    <span>{calculateDaysAgo(post.createdAt)} days</span>
+                      <svg
+                        className="w-4 h-4 mr-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                      Streak: {post.plant.streak || 0}{" "}
+                      {post.plant.streak === 1 ? "day" : "days"}
+                    </span>
                   </div>
 
                   {/* Desktop only content */}
@@ -289,9 +359,30 @@ export default function UserCommunityFeed() {
                     <p className="text-[#53675E] font-light text-[16px] mb-1">
                       {post.plant.plant_name}
                     </p>
-                    <p className="text-[#53675E] font-light text-[16px] mb-4">
+                    <p className="text-[#53675E] font-light text-[16px] mb-1">
                       {calculateDaysAgo(post.createdAt)} days since{" "}
                       {formatDate(post.createdAt)}
+                    </p>
+                    <p
+                      className={`text-[16px] font-semibold mb-4 inline-flex items-center px-3 py-1 rounded-full transition-transform duration-200 hover:scale-105 ${getStreakBadgeColor(
+                        post.plant.streak,
+                      )}`}
+                    >
+                      <svg
+                        className="w-5 h-5 mr-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                      Streak: {post.plant.streak || 0}{" "}
+                      {post.plant.streak === 1 ? "day" : "days"}
                     </p>
 
                     <div className="flex items-center justify-between pt-20">
