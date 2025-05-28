@@ -88,17 +88,19 @@ This API allows users to manage their plants, posts, and user profiles.
 
 | Method | Endpoint              | Description                           |
 | ------ | --------------------- | ------------------------------------- |
-| POST   | `/add-plant`          | Add a new plant                       |
-| POST   | `/post`               | Create a new post                     |
-| GET    | `/get-plants/:id`     | Get all plants for a user             |
-| GET    | `/plant/:id`          | Get details of a plant by ID          |
-| GET    | `/get-user/:id`       | Get user profile by ID                |
-| GET    | `/posts`              | Retrieve all posts                    |
-| GET    | `/streak/:id`         | Get watering streak for a plant       |
-| GET    | `/latest-watered/:id` | Get the latest watered date for plant |
-| PUT    | `/update-user/:id`    | Update user profile                   |
-| PUT    | `/update-plant/:id`   | Update plant information              |
-| DELETE | `/deletePlant`        | Delete a plant                        |
+| POST   | `api/add-plant`          | Add a new plant                       |
+| POST   | `api/post`               | Create a new post                     |
+| GET    | `api/get-plants/:id`     | Get all plants for a user             |
+| GET    | `api/plant/:id`          | Get details of a plant by ID          |
+| GET    | `api/get-user/:id`       | Get user profile by ID                |
+| GET    | `api/posts`              | Retrieve all posts                    |
+| GET    | `api/streak/:id`         | Get watering streak for a plant       |
+| GET    | `api/latest-watered/:id` | Get the latest watered date for plant |
+| PUT    | `api/update-user/:id`    | Update user profile                   |
+| PUT    | `api/update-plant/:id`   | Update plant information              |
+| DELETE | `api/deletePlant`        | Delete a plant                        |
+| POST   |  `/login`             | Login to website                      |
+| POST   |  `/register`          | Register account                      |
 
 ---
 
