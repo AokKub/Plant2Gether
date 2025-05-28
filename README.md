@@ -62,6 +62,11 @@
    ```bash
    bun run dev
    ```
+4. **After you put everything to .env run this command to migrate database**
+
+   ```bash
+   npx prisma migrate dev
+   ```
 
 ---
 
